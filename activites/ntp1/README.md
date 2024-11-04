@@ -17,23 +17,24 @@ using System.Net.Sockets;
 ```
 
 4. Dans la méthode `Main()`, créez une variable `ntpServer` qui contient l'adresse IP ou le nom de domaine d'un serveur
-   NTP public, tel que `time.windows.com`.
+   NTP public, tel que `0.ch.pool.ntp.org`.
 
 ```csharp
-string ntpServer = "time.windows.com";
+string ntpServer = "0.ch.pool.ntp.org";
 ```
 
-5. Créez une variable `ntpData` de type `byte[]` avec une taille de 48 octets.
+5. Créez une variable `ntpData` de type `byte[]` avec une taille de 48 octets et l'initialiser ainsi :
 
 ```csharp
 byte[] ntpData = new byte[48];
+ntpData[0] = 0x1B; //LI = 0 (no warning), VN = 3 (IPv4 only), Mode = 3 (Client Mode)
 ```
 
-6. Créez une variable `ntpEndpoint` de type `IPEndPoint` en utilisant l'adresse IP du serveur NTP et le port 123 (port
+6. Créez une variable `ntpEndpoint` de type `IPEndPoint` en utilisant le port 123 (port
    standard du protocole NTP).
 
 ```csharp
-IPEndPoint ntpEndpoint = new IPEndPoint(IPAddress.Parse(ntpServer), 123);
+IPEndPoint ntpEndpoint = new IPEndPoint(new IPEndPoint(Dns.GetHostAddresses(ntpServer)[0], 123);
 ```
 
 7. Créez une variable `ntpClient` de type `UdpClient` et connectez-la au serveur NTP.
@@ -61,6 +62,19 @@ ntpData = ntpClient.Receive(ref ntpEndpoint);
 ```csharp
 DateTime ntpTime = NtpPacket.ToDateTime(ntpData);
 ```
+
+<details><summary>NtpPacket ??</summary>
+
+Voici de quoi remplir NtpPacket
+```csharp
+ulong intPart = (ulong)ntpData[40] << 24 | (ulong)ntpData[41] << 16 | (ulong)ntpData[42] << 8 | (ulong)ntpData[43];
+ulong fractPart = (ulong)ntpData[44] << 24 | (ulong)ntpData[45] << 16 | (ulong)ntpData[46] << 8 | (ulong)ntpData[47];
+
+var milliseconds = (intPart * 1000) + ((fractPart * 1000) / 0x100000000L);
+var networkDateTime = (new DateTime(1900, 1, 1)).AddMilliseconds((long)milliseconds);
+```
+
+</details>
 
 11. Affichez l'heure actuelle à l'écran en utilisant la méthode `ToString()` de la classe `DateTime`.
 
