@@ -78,6 +78,11 @@ public class Episode
 
 Assemblez la saison 1 de "Eté et miel" dans un seul fichier
 
+## Suite pour celles et ceux qui sont en avance
+Reprendre l’exercice avec d’autres formats :
+- [XML](https://learn.microsoft.com/en-us/dotnet/standard/serialization/examples-of-xml-serialization)
+- [ProtoBuf](https://learn.microsoft.com/en-us/aspnet/core/grpc/protobuf?view=aspnetcore-8.0)
+
 ## Conclusion
 
 Mise en commun: qu'avez-vous utilisé pour sérialiser/désérialiser ?  

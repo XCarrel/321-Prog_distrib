@@ -23,37 +23,37 @@ using System.Net.Sockets;
 string ntpServer = "0.ch.pool.ntp.org";
 ```
 
-5. Créez une variable `ntpData` de type `byte[]` avec une taille de 48 octets et l'initialiser ainsi :
+5. Créez une variable `timeMessage` de type `byte[]` avec une taille de 48 octets et l'initialiser ainsi :
 
 ```csharp
-byte[] ntpData = new byte[48];
+byte[] timeMessage = new byte[48];
 ntpData[0] = 0x1B; //LI = 0 (no warning), VN = 3 (IPv4 only), Mode = 3 (Client Mode)
 ```
 
-6. Créez une variable `ntpEndpoint` de type `IPEndPoint` en utilisant le port 123 (port
+6. Créez une variable `ntpReference` de type `IPEndPoint` en utilisant le port 123 (port
    standard du protocole NTP).
 
 ```csharp
-IPEndPoint ntpEndpoint = new IPEndPoint(new IPEndPoint(Dns.GetHostAddresses(ntpServer)[0], 123);
+IPEndPoint ntpReference = new IPEndPoint(Dns.GetHostAddresses(ntpServer)[0], 123);
 ```
 
-7. Créez une variable `ntpClient` de type `UdpClient` et connectez-la au serveur NTP.
+7. Créez une variable `client` de type `UdpClient` et connectez-la au serveur NTP.
 
 ```csharp
-UdpClient ntpClient = new UdpClient();
-ntpClient.Connect(ntpEndpoint);
+UdpClient client = new UdpClient();
+ntpClient.Connect(client);
 ```
 
 8. Envoyez une demande NTP au serveur en utilisant la méthode `Send()` de la classe `UdpClient`.
 
 ```csharp
-ntpClient.Send(ntpData, ntpData.Length);
+client.Send(timeMessage, timeMessage.Length);
 ```
 
 9. Recevez la réponse NTP du serveur en utilisant la méthode `Receive()` de la classe `UdpClient`.
 
 ```csharp
-ntpData = ntpClient.Receive(ref ntpEndpoint);
+timeMessage = client.Receive(ref ntpReference);
 ```
 
 10. Convertissez les données NTP reçues en un objet `DateTime` en utilisant la méthode `ToDateTime()` de la
@@ -79,13 +79,13 @@ var networkDateTime = (new DateTime(1900, 1, 1)).AddMilliseconds((long)milliseco
 11. Affichez l'heure actuelle à l'écran en utilisant la méthode `ToString()` de la classe `DateTime`.
 
 ```csharp
-Console.WriteLine("Heure actuelle : " + ntpTime.ToString());
+Console.WriteLine($"Heure actuelle : {ntpTime}");
 ```
 
 12. Fermez la connexion au serveur NTP en utilisant la méthode `Close()` de la classe `UdpClient`.
 
 ```csharp
-ntpClient.Close();
+client.Close();
 ```
 
 13. Exécutez le programme et vérifiez que l'heure actuelle est affichée correctement à l'écran.
@@ -101,7 +101,7 @@ ntpClient.Close();
 <details><summary>Aide</summary>
 
 ```csharp
-Console.WriteLine("Heure actuelle (format personnalisé) : " + ntpTime.ToString("dd/MM/yyyy HH:mm:ss"));
+Console.WriteLine($"Heure actuelle (format personnalisé) : {ntpTime.ToString("dd/MM/yyyy HH:mm:ss")}");
 ```
 </details>
 
@@ -113,7 +113,7 @@ Console.WriteLine("Heure actuelle (format personnalisé) : " + ntpTime.ToString(
 
 ```csharp
 TimeSpan timeDiff = DateTime.Now - ntpTime;
-Console.WriteLine("Différence de temps : " + timeDiff.TotalSeconds + " secondes");
+Console.WriteLine($"Différence de temps : {timeDiff.TotalSeconds} secondes");
 ```
 </details>
 
@@ -124,7 +124,7 @@ Console.WriteLine("Différence de temps : " + timeDiff.TotalSeconds + " secondes
 
 ```csharp
 DateTime localTime = ntpTime.Add(timeDiff);
-Console.WriteLine("Heure locale : " + localTime.ToString());
+Console.WriteLine($"Heure locale : {localTime}");
 ```
 </details>
 
@@ -135,7 +135,7 @@ Console.WriteLine("Heure locale : " + localTime.ToString());
 
 ```csharp
 DateTime utcTime = localTime.ToUniversalTime();
-Console.WriteLine("Heure UTC : " + utcTime.ToString());
+Console.WriteLine($"Heure UTC : {utcTime}");
 ```
 </details>
 
@@ -147,7 +147,7 @@ Console.WriteLine("Heure UTC : " + utcTime.ToString());
 
 ```csharp
 localTime = utcTime.ToLocalTime();
-Console.WriteLine("Heure locale (à partir de l'heure UTC) : " + localTime.ToString());
+Console.WriteLine($"Heure locale (à partir de l'heure UTC) : {localTime}");
 ```
 </details>
 
@@ -155,9 +155,10 @@ Console.WriteLine("Heure locale (à partir de l'heure UTC) : " + localTime.ToStr
 ### 5. Convertir l'heure locale en heure GMT :
 
 <details><summary>Voir la réponse</summary>
+
 ```csharp
 DateTime gmtTime = localTime.ToUniversalTime().AddHours(-1); // Suisse en GMT+1
-Console.WriteLine("Heure GMT : " + gmtTime.ToString());
+Console.WriteLine($"Heure GMT : {gmtTime}");
 ```
 </details>
 
@@ -169,7 +170,7 @@ Console.WriteLine("Heure GMT : " + gmtTime.ToString());
 
 ```csharp
 localTime = gmtTime.AddHours(1); // Ajustez l'ajustement horaire en fonction de votre fuseau horaire
-Console.WriteLine("Heure locale (à partir de l'heure GMT) : " + localTime.ToString());
+Console.WriteLine($"Heure locale (à partir de l'heure GMT) : {localTime}");
 ```
 </details>
 
