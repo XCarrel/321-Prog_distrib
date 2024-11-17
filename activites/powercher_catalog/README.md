@@ -2,9 +2,9 @@
 
 ![](./assets/Model.png)
 
-Vos maisons sont remplies d'appareils électriques. En voici un exemple de consommateur:
+Vos maisons sont remplies d'appareils électriques. En voici un exemple de consommateur :
 
-Un four à raclette:
+Un four à raclette :
 
 ```csharp
 namespace DataModel.Catalog
@@ -21,11 +21,11 @@ namespace DataModel.Catalog
 
 ## Mission
 
-Créer:
+Créer :
 - Une classe pour un producteur d'énergie
 - Deux classes pour des consommateurs
 - Une classe pour un stockage
 
 Allez chercher les infos sur le net pour avoir des appareils aux caractéristiques réelles.
 
-Mise en commun: par un pull request
+Mise en commun : par un pull request spécifique contenant **UNIQUEMENT** les éléments électriques (pas HouseUI_...)

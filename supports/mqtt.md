@@ -45,7 +45,7 @@ MQTT offre trois niveaux de QoS en ce qui concerne la livraison des messages :
 Le Last Will and Testament (LWT) est un mécanisme conçu pour informer les autres appareils lorsque l'un des clients est
 déconnecté de manière inattendue.
 
-Au moment de sa connxion au broker, le client MQTT peut définir un message LWT qui sera stocké par le broker jusqu'à ce
+Au moment de sa connexion au broker, le client MQTT peut définir un message LWT qui sera stocké par le broker jusqu'à ce
 que le client se déconnecte.
 
 - Si le client se déconnecte correctement (en envoyant un message de fin de session, appelé DISCONNECT), le broker sait
@@ -80,4 +80,7 @@ restera disponible pour tout nouvel abonné, ce qui assure une certaine persista
 Lorsqu'un client perd sa connexion au broker, il peut décider de continuer à fonctionner normalement, ce qui va générer
 de nouveaux messages à émettre. Ces messages sont stockés localement dans une queue, ils seront envoyés dans le bon
 ordre au moment où le client se sera reconnecté au broker.
+
+### NonLocal
+Par défaut, un client qui envoie un message le reçoit aussi, à moins 
 
