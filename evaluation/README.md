@@ -3,7 +3,7 @@ L'évaluation est basée sur 2 Eléments:
 | Forme | Portée | Durée | Moyens d'aide | Pondération | Semaine |
 |---|---|---|---|---|---|
 |Checks théoriques | Les concepts vus précédemment | 10 min | Aucun | 50%|2,3,4,5,6 et 7|
-|Test pratique | <ul><li>Implémentation de fonctionnalité sur la base de User Story fournies</li><li>Ecriture de tests unitaires</li></ul> | 4p.| Tout ce que vous voulez sauf une autre personne ou une intelligence artificielle | 50%|8|
+|Test pratique | Implémentation de fonctionnalité sur la base de `// TODO` insérés dans un code fourni<br>Une période de préparation vous permet de vous approprier le code fourni  | 4p.| Tout ce que vous voulez sauf une autre personne ou une intelligence artificielle | 50%|8|
 
 <small>_La pondération est appliquée aux notes arrondies au dixième._</small>
 
