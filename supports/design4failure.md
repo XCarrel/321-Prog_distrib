@@ -10,9 +10,12 @@ via MQTT dont voici une illustration qui ne manque pas de flou artistique :
 
 Le thème étant relativement vaste, voici un résumé :
 
-**Le concept de "Design for Failure"** est essentiel pour assurer la **résilience** des systèmes distribués. Il repose
-sur l'idée qu'aucun système n'est à l'abri des **pannes** (matérielles, logicielles ou réseau) et vise à concevoir des
-infrastructures capables **d’identifier**, **de se dégrader gracieusement** et **de se rétablir automatiquement**.
+**Le concept de "Design for Failure"** est essentiel pour assurer la **résilience** des systèmes distribués. 
+
+> **Définition**  
+>   La résilience d'un système d'information est sa capacité à se récupérer rapidement et efficacement après une perturbation
+
+Ce concept repose sur l'idée qu'aucun système n'est à l'abri des **pannes** (matérielles, logicielles ou réseau) et vise à concevoir des infrastructures capables **d’identifier les pannes**, **de se dégrader gracieusement** et **de se rétablir automatiquement**.
 
 Les stratégies clés incluent la **redondance**, **fail fast**, l’utilisation de **clusters**, la mise en place 
 de **failover**, et même la **répartition géographique** des composants. Des mécanismes comme les **timeouts**, 
@@ -96,22 +99,22 @@ tombe en panne, les autres maisons doivent pouvoir continuer à fonctionner et �
 
 ### Cloud et Infrastructure
 
-26. Auto-healing : Configurer les infrastructures cloud pour détecter et remplacer automatiquement les instances
+26. **Auto-healing** : Configurer les infrastructures cloud pour détecter et remplacer automatiquement les instances
     défaillantes.
-27. Multi-cloud ou Hybride : Répartir les services sur plusieurs fournisseurs de cloud.
-28. Load Balancing : Répartir le trafic pour éviter la surcharge d’un composant unique.
-29. **Réplication : Répliquer les données et services sur plusieurs machines ou régions.
-30. Scalabilité : réagir à la demande, [plus de détails ici](#scalabilité-horizontale-et-verticale)
+27. **Multi-cloud** ou **Hybride** : Répartir les services sur plusieurs fournisseurs de cloud.
+28. **Load Balancing** : Répartir le trafic pour éviter la surcharge d’un composant unique.
+29. **Réplication** : Répliquer les données et services sur plusieurs machines ou régions.
+30. **Scalabilité** : réagir à la demande, [plus de détails ici](#scalabilité-horizontale-et-verticale)
 
 ### Sécurité
 
-31. Quotas et Limitations : Empêcher un utilisateur ou un processus de monopoliser les ressources.
-32. Isolation des Défaillances : Utiliser des conteneurs ou des environnements isolés pour limiter les impacts.
-33. Protéger le système contre des menaces externes et internes
+31. **Quotas** et **Limitations** : Empêcher un utilisateur ou un processus de monopoliser les ressources.
+32. **Isolation des Défaillances** : Utiliser des conteneurs ou des environnements isolés pour limiter les impacts.
+33. **Protéger** le système contre des menaces externes et internes
 
 Chaque stratégie peut être adaptée en fonction des besoins spécifiques du système et du contexte !
 
-## Stratégies complémentaires
+## Compléments sur certaines stratégies
 
 ### Fail Fast
 
