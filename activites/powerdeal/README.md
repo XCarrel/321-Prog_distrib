@@ -11,8 +11,8 @@ Votre maison doit également disposer d'un Energy Manager (EM). En termes de cod
 Son rôle consiste à :
 1. Mettre l'énergie produite par les producteurs de la maison dans un storage de la maison ou dans l'UPS
 2. Prendre l'énergie dans un storage de la maison ou dans l'UPS et la distribuer aux consommateurs
-3. Si l'UPS est chargé à plus de 50%: vendre le surplus à PowerDeal
-4. Si l'UPS est chargé à moins que 50%: acheter l'énergie manquante à PowerDeal
+3. Si l'UPS est chargé à plus de 60%: vendre le surplus à PowerDeal pour revenir à 50%
+4. Si l'UPS est chargé à moins que 40%: acheter l'énergie manquante à PowerDeal pour revenir à 50%
 
 Si la charge de l'UPS dépasse les 100%, l'excédent est perdu, mais **ATTENTION!**, si la charge de l'UPS arrive à 0, c'est **GAME OVER** 
 
