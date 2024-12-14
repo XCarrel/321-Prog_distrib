@@ -35,11 +35,10 @@ On peut aussi imaginer analyser les logs quotidiens pour détecter des opératio
 à l’utilisation de mécanismes en lien avec la blockchain, ce qui d’ailleurs résout aussi un problème lié à la 
 [confiance initiale](#défis-et-solutions-de-la-version-pki)
 
-## Exemple d'application avec PKI
+## Exemple d'application avec PKI (Public Key Infrastructure)
 
 1. **Établissement de la confiance** :
-    - Chaque maison s'enregistre auprès d'une autorité de certification (CA) pour obtenir un certificat X.509, qui
-      contient sa clé publique (PKI, par exemple Verisign...).
+    - Chaque maison s'enregistre auprès d'une autorité de certification (CA, par exemple Verisign...) pour obtenir un certificat X.509, qui contient sa clé publique.
     - Ces certificats peuvent être validés par d'autres maisons avant de commencer les échanges.
 
 2. **Signature des messages MQTT** :
@@ -91,7 +90,7 @@ sequenceDiagram
 
 1. **Gestion des certificats** :
     - Problème : Distribution et révocation des certificats.
-    - Solution : Utiliser un protocole comme **OCSP (Online Certificate Status Protocol)** pour vérifier l’état des
+    - Solution : Utiliser un protocole comme [**OCSP (Online Certificate Status Protocol)**](https://www.fortinet.com/fr/resources/cyberglossary/ocsp) pour vérifier l’état des
       certificats.
 
 2. **Latence et overhead** :
