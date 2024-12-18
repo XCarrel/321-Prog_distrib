@@ -8,7 +8,7 @@ Il est temps de protéger la moindre notre système.
 
 Nous allons réaliser une étape simple mais rapide: chiffrer nos communication au moyen d'une clé de l'algorithme AES et d'une clé de 32 bytes.
 
-Activité:
+## Activité:
 
 - Voici votre objectif:
     - La maison communique normalement avec Mère Nature, PowerDeal et PowerWatch
@@ -32,3 +32,5 @@ Activité:
         - L'heure de Mère Nature
         - Le montant en cash
     - [ ] Le système est stable dans cet état durant au moins 5 minutes
+## Aide
+- [cyberchef](https://gchq.github.io/CyberChef/), un outil pour convertir facilement entre base64 et Hex et chiffrer/déchiffrer avec AES...
