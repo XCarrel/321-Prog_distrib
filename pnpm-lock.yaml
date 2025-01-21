@@ -1930,8 +1930,8 @@ packages:
   jszip@3.10.1:
     resolution: {integrity: sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==}
 
-  katex@0.16.11:
-    resolution: {integrity: sha512-RQrI8rlHY92OLf3rho/Ts8i/XvjgguEjOkO1BEXcU3N8BqPpSzBNwV/G0Ukr+P/l3ivvJUE/Fa/CwbS6HesGNQ==}
+  katex@0.16.21:
+    resolution: {integrity: sha512-XvqR7FgOHtWupfMiigNzmh+MgUVmDGU2kXZm899ZkPfcuoPuFxyHmXsgATDpFZDAXCI8tvinaVcDo8PIIJSo4A==}
     hasBin: true
 
   keyv@4.5.4:
@@ -3599,7 +3599,7 @@ snapshots:
       htmlparser2: 9.1.0
       is-installed-globally: 1.0.0
       jiti: 2.4.0
-      katex: 0.16.11
+      katex: 0.16.21
       kolorist: 1.8.0
       local-pkg: 0.5.0
       lz-string: 1.5.0
@@ -3691,7 +3691,7 @@ snapshots:
       floating-vue: 5.2.2(@nuxt/kit@3.14.0(rollup@4.24.4))(vue@3.5.12(typescript@5.6.3))
       fuse.js: 7.0.0
       html-to-image: 1.11.11
-      katex: 0.16.11
+      katex: 0.16.21
       lz-string: 1.5.0
       mermaid: 11.4.0
       monaco-editor: 0.52.0
@@ -3761,7 +3761,7 @@ snapshots:
       '@shikijs/markdown-it': 1.22.2
       '@vitejs/plugin-vue': 5.1.4(vite@5.4.10(@types/node@18.19.64))(vue@3.5.12(typescript@5.6.3))
       '@vitejs/plugin-vue-jsx': 4.0.1(vite@5.4.10(@types/node@18.19.64))(vue@3.5.12(typescript@5.6.3))
-      katex: 0.16.11
+      katex: 0.16.21
       mermaid: 11.4.0
       monaco-editor: 0.52.0
       shiki: 1.22.2
@@ -5247,7 +5247,7 @@ snapshots:
       readable-stream: 2.3.8
       setimmediate: 1.0.5
 
-  katex@0.16.11:
+  katex@0.16.21:
     dependencies:
       commander: 8.3.0
 
@@ -5475,7 +5475,7 @@ snapshots:
       dagre-d3-es: 7.0.11
       dayjs: 1.11.13
       dompurify: 3.1.6
-      katex: 0.16.11
+      katex: 0.16.21
       khroma: 2.1.0
       lodash-es: 4.17.21
       marked: 13.0.3
