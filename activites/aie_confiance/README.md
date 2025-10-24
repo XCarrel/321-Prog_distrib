@@ -8,7 +8,7 @@ Il est temps de protéger la moindre notre système.
 
 Nous allons réaliser une étape simple mais rapide: chiffrer nos communication au moyen d'une clé de l'algorithme AES et d'une clé de 32 bytes.
 
-Activité:
+## Activité:
 
 - Voici votre objectif:
     - La maison communique normalement avec Mère Nature, PowerDeal et PowerWatch
@@ -22,3 +22,15 @@ Activité:
     - Vous essayez, expérimentez, ...
     - On s'arrête après une période maximum, on présente la solution la plus avancée
     - (Si besoin) on présente la solution officielle
+
+- DoD
+    - [ ] Mère Nature, PowerDeal et PowerWatch tournent sur un poste, connecté à `mqtt.blue.section-inf.ch`
+    - [ ] Un client MQTTX montre que les messages émis sont cryptés
+    - [ ] Il y a une fenêtre de monitoring PowerWatch par élève présent. (tolérance de -1)
+    - [ ] Toutes les fenêtres de monitoring contiennent
+        - Le nom de l'élève
+        - L'heure de Mère Nature
+        - Le montant en cash
+    - [ ] Le système est stable dans cet état durant au moins 5 minutes
+## Aide
+- [cyberchef](https://gchq.github.io/CyberChef/), un outil pour convertir facilement entre base64 et Hex et chiffrer/déchiffrer avec AES...

@@ -42,10 +42,12 @@ sequenceDiagram
     participant B as Maison B (Récepteur)
     participant CA as Autorité de Certification (CA)
     Note over A, B: Initialisation des clés et certificats
+    B ->> B: Génère une paire de clés privée/publique
     B ->> CA: Demande un certificat
-    CA -->> B: Émet un certificat avec clé publique
+    CA -->> B: Émet un certificat pour la clé publique
     Note over A: Préparation du message sécurisé
     A ->> CA: Récupère le certificat de B
+    A ->> A: Valide le certificat avec la clé publique de CA
     A ->> A: Chiffre le message avec la clé publique de B
     A ->> Broker: Publie le message chiffré sur un topic MQTT
     Note over Broker, B: Transmission et déchiffrement

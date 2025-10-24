@@ -18,3 +18,5 @@ Malgré les opportunités présentées dans l’image, nous allons nous limiter 
 ### PowerCher
 
 Définir une clé de chiffrement symétrique commune et chiffrer les messages.
+
+Voir [consignes](../activites/aie_confiance/)

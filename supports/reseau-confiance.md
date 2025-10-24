@@ -10,7 +10,11 @@ confiance est essentielle pour assurer la validité des échanges.
 Pour réaliser un réseau de confiance, au moins deux élements sont à prendre en compte : 
 
 ### Identité
-Chaque nœud doit pouvoir être identifié et reconnaissable (non-répudiation). Ceci implique, par défaut, une
+Chaque nœud doit pouvoir être identifié et reconnaissable, du point de vue des deux partenaires d'un échange:
+- Le récepteur est certain de l'identité de l'émetteur
+- L'émetteur ne peut pas prétendre ne pas être à l'origine du message
+
+On parle alors de **non-répudiation**, ce qui implique une
 architecture de type PKI.
 
 Cela passe donc par des **certificats de confiance** :
@@ -65,13 +69,11 @@ sequenceDiagram
    participant CA as Autorité de Certification (CA)
 
     Note over A, B: Initialisation du réseau de confiance
+    A->>A: Génère une clé privée/publique
     A->>CA: Demande un certificat
     CA-->>A: Émet un certificat avec clé publique
-    B->>CA: Demande un certificat
-    CA-->>B: Émet un certificat avec clé publique
 
     Note over A, Broker: Envoi d'un message signé
-    A->>A: Génère une clé privée/publique
     A->>A: Crée un message et le signe avec sa clé privée
     A->>Broker: Publie le message signé sur un topic MQTT
 
