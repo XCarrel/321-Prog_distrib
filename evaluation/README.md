@@ -2,10 +2,16 @@ L'évaluation est basée sur 2 Eléments:
 
 | Forme | Portée | Durée | Moyens d'aide | Pondération | Semaine |
 |---|---|---|---|---|---|
-|Checks théoriques | Les concepts vus précédemment | 10 min | Aucun | 50%|2,3,4,5,6 et 7|
+|Checks théoriques | Les concepts vus précédemment | 10 min | Aucun | 50%|2,3,4,5,6 et 8|
 |Test pratique | Implémentation de fonctionnalité sur la base de `// TODO` insérés dans un code fourni<br>Une période de préparation vous permet de vous approprier le code fourni  | 4p.| Tout ce que vous voulez sauf une autre personne ou une intelligence artificielle | 50%|8|
 
 <small>_La pondération est appliquée aux notes arrondies au dixième._</small>
+
+Trois jokers vous sont remis en début de module. Un joker est retiré en cas d'observation dʼun comportement ou dʼune pratique inacceptable, tels que :
+- Du code est commité dans votre repo et vous nʼêtes pas en mesure de lʼexpliquer de manière précise et convaincante.
+- Abus des libertés qui vous ont données : pause trop longue, discussion extra professionnelles, inactivité, usage non professionnel des outils mis à votre disposition, …
+- Recours inadapté et répété à lʼIA
+- Comportement dérangeant
 
 Durant le test pratique:
 - L'accès internet est autorisé
@@ -13,6 +19,7 @@ Durant le test pratique:
   - Un poste non atteignable par Impero est considéré comme triche
   - Les logs Impero sont collectés
   - Toute trace relevée dans les logs indiquant un accès (ou une tentative d'accès) à une intelligence artificielle est considérée comme triche
+- La réponse à une question du test peut être "achetée" au moyen d'un joker
 
 Une absence lors du test pratique doit impérativement être justifiée par un document officiel (certificat médical, convocation, ...). Le rattrapage se fait un samedi matin.
 
