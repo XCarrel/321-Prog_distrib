@@ -35,7 +35,7 @@ Cela nécessite des mécanismes de contrôle, de traçabilité et éventuellemen
 
 #### Importance du logging
 
-On peut donc imaginer analyser les logs quotidiens pour détecter des opérations illicites...  
+On peut par exemple imaginer analyser les logs quotidiens pour détecter des opérations illicites...  
 On centralise la fonctionnalité de logging dans un microservice. Avec des messages chiffrés de manière asymétrique, on assure la non-répudiation des logs. 
 Un outil d'analyse peut ensuite être mis en place pour vérifier les opérations effectuées.
 
