@@ -81,7 +81,9 @@ sequenceDiagram
     Broker-->>B: Transmet le message signé
     B->>CA: Demande le certificat de A via CA
     Note over CA: Vérifie l’identité de B
-    CA->>B: Envoie la clé public de A
+    CA->>B: Envoie le certificat de A
+    B->>B: Vérifie la signature du certificat avec la clé publique de la CA
+    B->>B: Extrait la clé publique de A du certificat
     B->>B: Vérifie la signature avec la clé publique de A
     B->>B: Valide le contenu du message
 
