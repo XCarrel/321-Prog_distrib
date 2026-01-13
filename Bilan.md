@@ -1,0 +1,2 @@
+- Les accès inter-threads de la UI house posent des difficultés majeurs à certains -> simplifier avec modèle/render
+- Attention aux soucis rencontrés en cours d'épreuve: bien valider ton énoncé
