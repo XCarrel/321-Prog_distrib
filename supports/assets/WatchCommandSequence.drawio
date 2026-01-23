@@ -1,0 +1,73 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.0 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.3.0">
+  <diagram name="Page-1" id="Vc92nWNsYrKbQ4yZCDYG">
+    <mxGraphModel dx="1090" dy="870" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="iRU5KTgAYqORjcX9vAMO-1" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="HouseUI Form" vertex="1">
+          <mxGeometry height="400" width="100" x="180" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="iRU5KTgAYqORjcX9vAMO-4" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="PowerWatch Form" vertex="1">
+          <mxGeometry height="400" width="120" x="520" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="iRU5KTgAYqORjcX9vAMO-5" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" target="iRU5KTgAYqORjcX9vAMO-1" value="Send (StatusRequest, MONITORING)">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="579.5" y="160" as="sourcePoint" />
+            <mxPoint x="410" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iRU5KTgAYqORjcX9vAMO-7" edge="1" parent="1" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" value="Build status request envelope&lt;div&gt;Recipient = ALL&lt;/div&gt;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="610" y="140" />
+            </Array>
+            <mxPoint x="580" y="110" as="sourcePoint" />
+            <mxPoint x="585" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iRU5KTgAYqORjcX9vAMO-12" edge="1" parent="1" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" value="Filter Recipient &amp;amp; Service">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="230" />
+            </Array>
+            <mxPoint x="230" y="200" as="sourcePoint" />
+            <mxPoint x="235" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iRU5KTgAYqORjcX9vAMO-13" edge="1" parent="1" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" value="Deserialize Command">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="280" />
+            </Array>
+            <mxPoint x="230" y="250" as="sourcePoint" />
+            <mxPoint x="235" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iRU5KTgAYqORjcX9vAMO-14" edge="1" parent="1" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" value="Build status response envelope&lt;div&gt;Recipient = PowerWatch&lt;/div&gt;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="380" />
+            </Array>
+            <mxPoint x="230" y="350" as="sourcePoint" />
+            <mxPoint x="235" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iRU5KTgAYqORjcX9vAMO-15" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" value="Send (StausResponse, MONITORING)">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="229.5" y="420" as="sourcePoint" />
+            <mxPoint x="579.5" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iRU5KTgAYqORjcX9vAMO-16" edge="1" parent="1" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" value="Filter on Command type">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="330" />
+            </Array>
+            <mxPoint x="230" y="300" as="sourcePoint" />
+            <mxPoint x="235" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
