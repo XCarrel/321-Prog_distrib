@@ -22,7 +22,7 @@ peuvent être impliqués.
 ## Transactions dans une Architecture Distribuée
 
 Déjà pas facile à résoudre entre 2 interlocuteurs (par exemple un client et un broker), dans une architecture distribuée,
-une transaction peut impliquer plusieurs échanges entre différents microservices, ce qui nécessite des mécanismes pour 
+une transaction peut impliquer plusieurs échanges entre différents microservices, ce qui nécessite des mécanismes pour
 garantir l'intégrité des données. Voici les principaux concepts et implications :
 
 ### 1. **Transactions Distribuées**
@@ -49,21 +49,51 @@ les autres doivent être annulées (rollback).
 - **Latence accrue** : Les validations entre systèmes prennent du temps.
 - **Faible résilience** : Si le coordinateur échoue, la transaction peut rester bloquée.
 
+### Cas d'utilisation : Création d'une commande en trois étapes
+
+1. **Créer une commande** (Service Commande, publié sur `orders/create`).
+2. **Réserver le stock** (Service Stock, publié sur `stock/reserve`).
+3. **Valider le paiement** (Service Paiement, publié sur `payment/charge`).
+
+Si une étape échoue, les étapes précédentes doivent être compensées.
+
+### Diagramme des Échanges MQTT dans un scénario optimiste
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Broker
+    participant Commande
+    participant Stock
+    participant Paiement
+    Client ->> Broker: Publish (orders/create)
+    Broker ->> Commande: Deliver (orders/create)
+    Commande ->> Broker: Publish (stock/reserve)
+    Broker ->> Stock: Deliver (stock/reserve)
+    Stock ->> Broker: Publish (stock/reserve/confirmed)
+    Broker ->> Commande: Deliver (stock/reserve/confirmed)
+    Commande ->> Broker: Publish (payment/charge)
+    Broker ->> Paiement: Deliver (payment/charge)
+    Paiement ->> Broker: Publish (payment/confirmed)
+    Broker ->> Commande: Deliver (payment/confirmed)
+    Broker ->> Stock: Deliver (payment/confirmed)
+    Stock ->> Broker: (publish/stock adjusted)
+```
 
 ### 2. **Transactions Compensatoires (Sagas)**
 
 Plutôt que d'utiliser des transactions ACID complexes dans une architecture distribuée, une approche populaire est celle
-des **sagas** (terme des auteurs qui indique une transaction 'longue'), où chaque étape d'une transaction peut être 
+des **sagas** (terme des auteurs qui indique une transaction 'longue'), où chaque étape d'une transaction peut être
 **compensée** par une action inverse en cas d'échec.
 
 #### Exemple :
 
 1. **Étape 1** : Créer une commande (service 1).
-2. **Étape 2** : Réserver le stock (service 2).
+2. **Étape 2** : Sortir du stock (service 2).
 3. **Étape 3** : Débiter le client (service 3).
-4. **Compensation** : Si l'étape 3 échoue, les étapes 1 et 2 doivent être annulées :
-    - Supprimer la commande.
-    - Libérer le stock.
+4. **Compensation** : Si l'étape 3 échoue, les étapes 1 et 2 doivent être "inversées" :
+   - Supprimer la commande.
+   - Remettre dans le stock.
 
 #### Avantages des sagas :
 
@@ -75,7 +105,6 @@ des **sagas** (terme des auteurs qui indique une transaction 'longue'), où chaq
 
 - **Complexité logique** : Chaque étape doit définir des actions compensatoires.
 - **Visibilité** : Les états intermédiaires peuvent être visibles avant que la transaction ne soit complète.
-
 
 ### 3. **Rôle de l'Idempotence**
 
@@ -127,9 +156,8 @@ reprise après un échec, chaque étape d'une transaction doit pouvoir être ré
    Utilisez un journal ou une base de données pour suivre l'état de chaque étape d'une transaction.
 
 4. **Adopter des outils appropriés** :
-    - **Outbox Pattern** : Pour garantir la livraison des messages en cas de panne.
-    - **Middleware transactionnel** : Pour encapsuler les transactions et gérer les échecs automatiquement.
-
+   - **Outbox Pattern** : Pour garantir la livraison des messages en cas de panne.
+   - **Middleware transactionnel** : Pour encapsuler les transactions et gérer les échecs automatiquement.
 
 En combinant **idempotence** et **transactions compensatoires**, vous pouvez concevoir des systèmes distribués robustes
 qui garantissent la cohérence et la résilience face aux défaillances.
@@ -153,33 +181,3 @@ combinant idempotence et transactions compensatoires.
 3. **Sagas** :
    Les **transactions compensatoires** (sagas) sont bien adaptées aux architectures avec MQTT, car chaque service peut
    publier des messages pour confirmer ou annuler une étape.
-
-### Cas d'utilisation : Création d'une commande en trois étapes
-
-1. **Créer une commande** (Service Commande, publié sur `orders/create`).
-2. **Réserver le stock** (Service Stock, publié sur `stock/reserve`).
-3. **Valider le paiement** (Service Paiement, publié sur `payment/charge`).
-
-Si une étape échoue, les étapes précédentes doivent être compensées.
-
-
-### Diagramme des Échanges MQTT dans un scénario optimiste
-
-```mermaid
-sequenceDiagram
-    participant Client
-    participant Broker
-    participant Commande
-    participant Stock
-    participant Paiement
-    Client ->> Broker: Publish (orders/create)
-    Broker ->> Commande: Deliver (orders/create)
-    Commande ->> Broker: Publish (stock/reserve)
-    Broker ->> Stock: Deliver (stock/reserve)
-    Stock ->> Broker: Publish (stock/reserve/confirmed)
-    Broker ->> Commande: Deliver (stock/reserve/confirmed)
-    Commande ->> Broker: Publish (payment/charge)
-    Broker ->> Paiement: Deliver (payment/charge)
-    Paiement ->> Broker: Publish (payment/confirmed)
-    Broker ->> Commande: Deliver (payment/confirmed)
-```
