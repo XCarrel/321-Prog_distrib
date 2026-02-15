@@ -35,7 +35,12 @@ Un bon cluster réalise de manière transparente pour ses utilisateurs:
 Il y a deux modes de fonctionnement possible pour gérer la répartition:
 
 1. La gestion **Centralisée**: les requêtes passent par un noeud appelé Master, qui assigne explicitement la tâche à un des membres du cluster appelé Worker.  
-   Les algorithmes les plus courants dans ce mode sont: - **Round Robin** : chacun son tour - **Least Connections** : la tâche va au noeud qui a le moins de travail - **Random** : distribution aléatoire
+   Les algorithmes les plus courants dans ce mode sont: 
+   - **Round Robin** : chacun son tour 
+   - **Segmentation** : la tâche est distribuée en fonction d'une catégorie à laquelle le client client appartient
+   - **Least Connections** : la tâche va au noeud qui a le moins de clients 
+   - **Least Load** : la tâche va au noeud qui a le moins de charge de travail 
+   - **Random** : distribution aléatoire
 
 2. La gestion **Distribuée**: les tâches sont présentées à tous les noeuds, chacun "pioche" dans la liste  
    Chaque noeud choisit une tâche en fonction d'un calcul effectué sur les attributs de la tâche. Le calcul est définit de telle sorte qu'on assure qu'aucune tâche ne restera sur le carreau (**Hash-based**)
