@@ -68,3 +68,14 @@ Les composants émettent des informations lorsqu’un événement se produit.
 
 - Nécessite une gestion de détection des crash
 - Consolidation de l'état à un instant T plus complexe
+
+## 5. Logging (journalisation)
+
+ le monitoring donne une image instantanée d'un système. Il est généralement accompagné d'une stratégie de Logging à fin de conserver des informations au fil du temps.  
+Une erreur peut être
+- Permanente: seule une intervention humaine peut éliminer la cause de l'erreur et rétablir le fonctionnement normal. Exemple : une alimentation qui "crame".
+- Transitoire: la cause de l'erreur peut disparaître, soit suite à une intervention humaine, soit de manière automatique. Exemple : une application s'arrête, parce qu'elle n'a plus d'espace à disposition sur le disque, un job programmé effectue l'archivage de données, l'application peut redémarrer parce qu'elle a récupéré de la place.
+
+ Si personne ne regarde le système de monitoring pendant une erreur transitoire, il est tout à fait possible de la rater.
+
+ Le logging va donc permettre de gérer ce risque en enregistrant l'apparition de l'erreur et sa disparition dans un log.
