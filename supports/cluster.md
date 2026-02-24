@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-L'architecure en système distribué a donc certains avantages
+L'architecture en système distribué a donc certains avantages
 
 - La capacité à répartir la charge de travail (load balancing)
 - Une bonne tolérance aux pannes par la reprise de charge (failover)
