@@ -36,3 +36,7 @@ Malgré les opportunités présentées dans l’image, nous allons nous limiter 
   - Signer sa commande de réponse à PowerWatch et obtenir le badge !
 
 - Définir une clé de chiffrement symétrique commune et chiffrer les messages. Voir [consignes](../activites/aie_confiance/)
+
+## Préparation au test
+
+- Faire fonctionner la maison témoin (vendredi)
