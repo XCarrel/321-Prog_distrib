@@ -9,7 +9,7 @@ Un entrepreneur est déjà passé par là, il a mis à notre disposition un rés
 
 - Le réseau est fiable
 - Il n'y a aucune latence sur le réseau
-- Il offre une banque passante infinie
+- Il offre une bande passante infinie
 - Il est sûr
 - Sa topologie est si bonne qu'il n'y aura jamais besoin de changer quoique ce soit
 - Il n'a besoin que d'un seul administrateur (moi)
@@ -63,7 +63,6 @@ Pour cela, nous utiliserons la sérialisation.
 ### Activité
 
 - Théorie + Drill
-
 - Chacun crée un commerce: nom, enseigne (image), spécialité (nom + image + prix)
 - Chacun crée un programme qui permet d'afficher sa vitrine à partir d'un objet hardcodé
 - Serialiser sa BP, la recharger à partir du du fichier et se débarrasser des valeurs hardcodées

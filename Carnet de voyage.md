@@ -1,7 +1,18 @@
 # Carnet de voyage
 
 Du 2 novembre au 23 décembre 2026, la classe CMID3b et moi avons parcouru un chemin d'apprentissage de la programmation de systèmes distribués.
-Ce document relate les péripéties de ce voyage.
+Ce document relate les péripéties de ce voyage, qui part quand même un peu dans l'inconnu...
+
+![](./supports/assets/mistylandscape.jpeg)
+
+Les dernières fois que j'ai fait ce cours, nous avions fourni une base de code assez importante que chaque étudiant devait s'approprier pour pouvoir travailler dessus.
+Nous avions choisi de faire cela pour minimiser le temps que nous aurions perdu à la recréer durant le cours.
+
+Ce choix a posé pas mal de difficultés à plusieurs élèves, qui avaient de la peine à s'y retrouver.
+
+Pour ce voyage-ci, nous avons décidé de nous en passer car le temps nécessaire à sa réalisation est aujourd'hui drastiquement réduit grâce aux outils d'intelligence artificielle.
+
+Nous ne partons donc pas d'une base éprouvée et connue d'au moins une personne du groupe (moi) et nous allons tout construire ensemble.
 
 <hr>
 
@@ -9,29 +20,33 @@ Ce document relate les péripéties de ce voyage.
 
 ### Lundi 2 novembre
 
-On part quand même un peu dans l'inconnu.
+Nous avons survolé rapidement les [objectifs](https://www.modulbaukasten.ch/module/321/1/fr-FR?degree=13d8d40b-6d82-eb11-a812-0022486f6f83&title=Programmer-des-syst%C3%A8mes-distribu%C3%A9s&tab=2) du module sur le site ICT-Berufsbildung, mais dans le but uniquement de repérer quelques mots-clés: transfert de données, protocole, authentification, surveillance, ...
 
-![](./supports/assets/mistylandscape.jpeg)
+Nous avons passé plus de temps à discuter du système (naturellement distribué) que nous allons construire ensemble.
 
-Les dernières fois que j'ai fait ce cours, nous avions fourni une base de code assez importante que chaque étudiant devait s'approprier pour pouvoir travailler dessus.  
-Nous avions choisi de faire cela pour minimiser le temps que nous aurions perdu à la recréer durant le cours.
+Nous avons ensuite discuté de la manière dont nous allons travailler ensemble pour atteindre notre objectif. Voici ce qu'il en est ressorti:
 
-Pour ce voyage-ci, nous avons décidé de nous en passer car le temps nécessaire à sa réalisation est aujourd'hui drastiquement réduit grâce aux outils d'intelligence artificielle.
+- Tout notre code est dans un repo Github (et pas Jujutsu)
+- On a une équipe de classe
+- On fait du gitflow, que l'on travaille seul ou à plusieurs sur une branche
+- Les branches sont mergées par pull request (PR). Nous devons encore préciser qui peut accepter les PR.
+- On crée des issues dans le repo, on les suit dans un projet Kanban lié au repo
+- Nous pratiquons le daily scrum
+- Nous devons nommer un scrum master
+- Nos communications passent par discord. Le serveur est [là](https://discord.gg/tBRJZqgZ), c'est Tony qui en est l'admin.
 
-Nous ne partons donc pas d'une base éprouvée et connue d'au moins une personne du groupe (moi) et nous allons tout construire ensemble.
+J'ai présenté une première ébauche de la manière dont l'évaluation sera faite dans ce module:
 
-### Mercredi 26 août
+- Il y aura de l'oral
+- Il pourrait y avoir de l'écrit old school (papier !)
+- Il y aura des checkpoints
 
-Nous survolons rapidement les [objectifs](https://www.modulbaukasten.ch/module/321/1/fr-FR?degree=13d8d40b-6d82-eb11-a812-0022486f6f83&title=Programmer-des-syst%C3%A8mes-distribu%C3%A9s&tab=2) du module sur le site ICT-Berufsbildung, mais dans le but uniquement de repérer quelques mots-clés
+Il ne s'agit que d'une ébauche car certaines décisions n'ont pas encore été prises et d'autres dépendront des choix que nous ferons au début du parcours.
 
-Par contre, nous passons plus de temps à discuter du système (naturellement distribué) que nous allons construire ensemble.
+J'ai parlé du projet, qui consistera à faire un mediaplayer pour ambiancer les BP.
 
-Nous discutons ensuite de la manière dont nous allons travailler ensemble pour atteindre notre objectif.
+Nous avons commencé un petit [drill](./drills/OODrills/) OO pour nous assurer qu'on part avec un bagage minimal solide.
 
-Je présente une première ébauche de la manière dont vous serez évalués dans ce module. Il s'agit du ébauche car certaines décisions n'ont pas encore été prises et d'autres dépendront des choix que nous ferons au début du parcours.
+Quel que soit le chemin, nous ne pourrons pas nous entendre si nous ne maîtrisons pas tous le concept de sérialisation. Nous avons donc commencé par étudier la [théorie](./supports/Sérialisation.md) de ce concept, puis nous avons commencé un petit [drill](./drills/serialisation/).
 
-Nous faisons un petit [drill](./drills/OODrills/) pour nous assurer qu'on part avec un bagage minimal solide.
-
-Quelque soit le chemin, nous ne pourrons pas nous entendre si nous ne maîtrisons pas tous le concept de sérialisation. On va donc commencer par étudier la [théorie](./supports/Sérialisation.md) de ce concept, ensuite on va faire un petit [drill](./drills/serialisation/).
-
-Et ensuite on commence à réfléchir comment on va utiliser ça dans notre système...
+On s'est arrêté là, on reprendra et finira les deux drills mercredi
