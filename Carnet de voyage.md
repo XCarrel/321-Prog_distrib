@@ -57,16 +57,38 @@ Nous allons finir les deux drills (OO et sérialisation).
 
 Nous ferons un debrief avec un focus sur la comparaison par valeur (`Equals`) et par référence (`==`)
 
-Chacun commencera la réalisation de son bureau, l'endroit à partir duquel il va gérer sa BP.  
-Les conditions suivantes s'appliquent à tous les bureaux:
-- Le stack utilisé pour son développement est libre. Le code est personnel, il est maintenu dans un repo personnel.
-- Le modèle minimal de BP contient:
-  - `ID`, un ID de commerce, une chaine de caractères satisfaisant `^COM-[A-Z]+(?:-[A-Z]+)*$` qui identifie le commerce sans ambiguïté
-  - `Name`, le nom public du commerce ("Au bon croissant", "Le Mille-Miettes", ...)
-  - `Logo`, une image, prévue pour être affichée en format 16:9
-  - `Special`, un produit "phare"
-- Votre bureau peut s'appuyer sur un modèle plus étendu, mais ces propriétés sont obligatoires
-- Un produit est modélisé avec
-  - (TBD)
+Nous allons décider du thème de notre projet
+_(Il faudra peut-être changer ce qui suit en fonction des décisions prises)_
 
-On échange des BP sérialisées par Discord
+XCL créera le repo, l'équipe et les droits d'accès.  
+
+Pendant ce temps, chacun commencera la réalisation de son app "backoffice", l'endroit à partir duquel il va gérer sa BP.  
+Les conditions suivantes s'appliquent à tous les backoffices:
+- Le stack utilisé pour son développement est libre. 
+- Il doit pouvoir s'intégrer à notre infrastructure de communication (MQTT)
+- Le code est personnel, il est maintenu dans un repo personnel.
+- Le modèle minimal de BP contient:
+  - `ID`, un ID de commerce, une chaine de caractères satisfaisant `^COM-[0-9]{4}$` qui identifie le commerce sans ambiguïté
+  - `Name`, le nom public du commerce ("Chez Léon", "Le Mille-Miettes", ...)
+  - `Logo`, une image prévue pour être affichée en format 16:9
+  - `Special`, un produit "phare"
+- Votre backoffice peut s'appuyer sur un modèle plus étendu, mais les propriétés ci-dessus sont obligatoires
+- Votre app backoffice est capable d'afficher une autre BP que la vôtre
+- Un produit est modélisé avec
+  - `ID`, une chaine de caractères satisfaisant `^PROD-[0-9]{4}$` qui identifie le produit sans ambiguïté
+  - `Name`, le nom d'affichage du produit
+  - `Picture`, une photo prévue pour être affichée en format carré
+  - `Price`, le prix de vente à l'unité, en francs (avec centimes)
+
+TODO: définir ensemble l'emplacement de la référence commune pour les modèles
+
+Objectifs individuels:
+- Créer son backoffice "Hello World"
+- Sérialiser son business dans un fichier JSON
+- Redémarrer son backoffice avec relecture (désérialisation) du fichier
+- Echanger des fichiers par Discord, afficher le business d'un autre dans son backoffice
+
+DoD:
+- [ ] Le repo du projet commun est créé sur Github
+- [ ] Il est privé, accessible par tous les membres de l'équipe
+- [ ] On a défini l'endroit où sont les modèles de référence : 
