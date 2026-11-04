@@ -53,7 +53,13 @@ On s'est arrêté là, on reprendra et finira les deux drills mercredi
 
 ### Mercredi 4 novembre
 
-Nous allons finir les deux drills (OO et sérialisation).
+Nous allons discuter un peu d'[actualité](https://www.24heures.ch/eca-vaud-perd-12-9-millions-pour-un-logiciel-jamais-livre-597188765739).
+
+Je vais reprendre rapidement la portée générale du projet (voir plus loin pourquoi)
+
+Vous allez finir les deux drills (OO et sérialisation).
+
+Ceux qui auront terminé avant commenceront à travailler sur leur projet, en attendant
 
 Nous ferons un debrief avec un focus sur la comparaison par valeur (`Equals`) et par référence (`==`)
 
