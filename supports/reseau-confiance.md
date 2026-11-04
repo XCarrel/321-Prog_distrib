@@ -1,66 +1,42 @@
 # Réseau de confiance
 
+> **Fallacies :** 4 (le réseau est sûr), 6 (plusieurs administrateurs).  
+> **À retenir :** deux questions distinctes. **Identité** : qui est-ce vraiment ? **Validité** : fait-il ce qu'il a le droit de faire ? Une signature répond à la première, pas à la seconde.
+
 ![confiance.jpg](assets/confiance.jpg)
 
-Un **réseau de confiance** est un modèle dans lequel chaque participant (par exemple, une maison connectée ou un
-appareil IoT) accorde sa confiance à d'autres participants sur la base de relations directes ou indirectes. Cette
-confiance est essentielle pour assurer la validité des échanges.
+Un **réseau de confiance** est un modèle où chaque participant (maison connectée, appareil IoT…) accorde sa confiance aux autres par des relations directes ou indirectes. Cette confiance est essentielle à la validité des échanges.
 
 ## 2 aspects fondamentaux
-Pour réaliser un réseau de confiance, au moins deux élements sont à prendre en compte : 
 
 ### Identité
-Chaque nœud doit pouvoir être identifié et reconnaissable, du point de vue des deux partenaires d'un échange:
-- Le récepteur est certain de l'identité de l'émetteur
-- L'émetteur ne peut pas prétendre ne pas être à l'origine du message
 
-On parle alors de **non-répudiation**, ce qui implique une
-architecture de type PKI.
+Chaque nœud doit être identifiable, des deux points de vue :
 
-Cela passe donc par des **certificats de confiance** :
+- le récepteur est certain de l'identité de l'émetteur ;
+- l'émetteur ne peut pas prétendre ne pas être à l'origine du message : c'est la **non-répudiation**, qui implique une architecture de type **PKI**.
 
-- Les nœuds possèdent des certificats émis par une autorité centrale ou décentralisée.
-- Chaque certificat associe une identité à une clé publique.
+Pour cela :
 
-tout en permettant la **propagation de la confiance** :
-- Les relations de confiance peuvent être directes (maison A connaît maison B) ou transitives (A fait confiance à B,
-  qui fait confiance à C).
-
-ce qui implique une **validation mutuelle** avant de partager des informations.
+- des **certificats de confiance** : les nœuds possèdent des certificats émis par une autorité centrale ou décentralisée, chacun associant une identité à une clé publique ;
+- la **propagation de la confiance** : relations directes (A connaît B) ou transitives (A fait confiance à B, qui fait confiance à C) ;
+- une **validation mutuelle** avant de partager des informations.
 
 ### Validité
 
-Même si l’identité d’un nœud est vérifiée cryptographiquement, le réseau doit également s’assurer que les actions de ce nœud respectent les règles communes.  
-Cela nécessite des mécanismes de contrôle, de traçabilité et éventuellement de consensus distribué, afin de détecter ou prévenir les comportements frauduleux.
+Même si l'identité d'un nœud est vérifiée cryptographiquement, le réseau doit s'assurer que ses actions **respectent les règles communes** : contrôle, traçabilité, éventuellement consensus distribué, pour détecter ou prévenir les comportements frauduleux.
 
-#### Importance du logging
-
-On peut par exemple imaginer analyser les logs quotidiens pour détecter des opérations illicites...  
-On centralise la fonctionnalité de logging dans un microservice. Avec des messages chiffrés de manière asymétrique, on assure la non-répudiation des logs. 
-Un outil d'analyse peut ensuite être mis en place pour vérifier les opérations effectuées.
+**Importance du logging.** On peut analyser les journaux pour détecter des opérations illicites. En centralisant le logging dans un microservice et en **signant** les messages de log (avec la clé privée de l'émetteur), on assure leur non-répudiation. Un outil d'analyse vérifie ensuite les opérations effectuées.
 
 ## Exemple d'application avec PKI (Public Key Infrastructure)
 
-1. **Établissement de la confiance** :
-    - Chaque maison s'enregistre auprès d'une autorité de certification (CA, par exemple Verisign...) pour obtenir un certificat X.509, qui contient sa clé publique.
-    - Ces certificats peuvent être validés par d'autres maisons avant de commencer les échanges.
-
-2. **Signature des messages MQTT** :
-    - Les messages envoyés via le broker sont **signés** avec la clé privée de l’émetteur.
-    - Exemple : Une maison publie un message sur le **topic "powercher"**, accompagné de la signature de son
-      contenu.
-
-3. **Vérification au niveau du broker ou des abonnés** :
-    - Les abonnés (maisons connectées) utilisent la clé publique de l’émetteur (disponible via le certificat) pour
-      valider la signature et s'assurer que :
-        - Le message provient bien de l’émetteur déclaré.
-        - Les données n’ont pas été modifiées en transit.
-
-4. **Gestion des fichiers multimédias** :
-    - Les fichiers sont hachés (ex. SHA-256) avant transmission.
-    - Le hachage est signé.
+1. **Établissement de la confiance.** Chaque maison s'enregistre auprès d'une autorité de certification (CA) et obtient un certificat X.509 contenant sa clé publique. Les autres maisons valident ce certificat avant d'échanger.
+2. **Signature des messages MQTT.** Les messages publiés via le broker sont **signés** avec la clé privée de l'émetteur (exemple : un message sur un topic du scénario, accompagné de la signature de son contenu).
+3. **Vérification.** Les abonnés utilisent la clé publique de l'émetteur (dans son certificat) pour s'assurer que le message **provient bien de l'émetteur déclaré** et que les **données n'ont pas été modifiées**.
+4. **Fichiers volumineux.** On hache le fichier (par exemple SHA-256) avant transmission et on signe le hash.
 
 ### Diagramme de séquence
+
 ```mermaid
 sequenceDiagram
    participant A as Maison A (Émetteur)
@@ -92,16 +68,12 @@ sequenceDiagram
 
 ### Défis et solutions de la version PKI
 
-1. **Gestion des certificats** :
-    - Problème : Distribution et révocation des certificats.
-    - Solution : Utiliser un protocole comme [**OCSP (Online Certificate Status Protocol)**](https://www.fortinet.com/fr/resources/cyberglossary/ocsp) pour vérifier l’état des
-      certificats.
+| Défi | Problème | Piste |
+|---|---|---|
+| **Gestion des certificats** | distribution et **révocation** | vérifier l'état par un protocole comme [**OCSP**](https://www.fortinet.com/fr/resources/cyberglossary/ocsp) |
+| **Latence et surcoût** | les opérations cryptographiques ajoutent de la latence | algorithmes plus légers (ECDSA plutôt que RSA), matériel dédié (puces TPM) |
+| **Confiance initiale** | établir un réseau de confiance sans point central fort | modèle hybride avec une autorité initiale décentralisée, ou une blockchain |
 
-2. **Latence et overhead** :
-    - Problème : Les opérations cryptographiques peuvent augmenter la latence.
-    - Solution : Optimiser les algorithmes (ex. ECDSA au lieu de RSA) et utiliser des matériels dédiés (ex. puces TPM).
+## Dans ce module
 
-3. **Confiance initiale** :
-    - Problème : Établir un réseau de confiance initial sans point central fort.
-    - Solution : Modèle hybride avec une autorité initiale décentralisée ou une blockchain.
-
+Il n'y a pas d'autorité de certification officielle : la classe doit **décider ensemble** qui atteste de l'identité de qui (l'annuaire ? l'enseignant ? un accord de la classe ?) et ce qui se passe quand une clé fuit. C'est exactement le problème de la confiance initiale. Voir [C7](../activites/chat/C7-confiance.md) et [D09](../activites/drills/D09-securite.md).

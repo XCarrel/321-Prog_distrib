@@ -1,39 +1,29 @@
 # Confidentialité
 
-La **confidentialité** dans un réseau distribué consiste à garantir que seules les entités autorisées peuvent accéder
-aux données échangées. Cela empêche les interceptions ou divulgations non autorisées.
+> **Fallacy :** 4 (le réseau est sûr).  
+> **À retenir :** chiffrer protège la **lecture**, pas l'**auteur** ni le **rejeu**. Même le broker est un intermédiaire à qui on ne fait pas confiance.
 
-## Principes clés de la confidentialité :
+La **confidentialité** garantit que seules les entités autorisées accèdent aux données échangées : pas d'interception ni de divulgation non autorisée.
 
-1. **Chiffrement des données** :
-    - Les données sont chiffrées avant leur transmission, rendant leur contenu illisible pour toute entité ne possédant
-      pas la clé de déchiffrement.
-    - Types de chiffrement :
-        - **Symétrique** : Une seule clé est utilisée pour le chiffrement et le déchiffrement.
-        - **Asymétrique** : Une paire de clés (publique/privée) est utilisée.
-2. **Authentification des parties** :
-    - Les participants doivent s’authentifier pour s'assurer qu'ils sont bien autorisés à échanger les données.
-3. **Protection en transit** :
-    - Les données doivent rester confidentielles pendant leur transfert, même si le réseau est compromis.
+## Principes clés
 
+1. **Chiffrement des données** avant transmission : le contenu est illisible pour toute entité sans la clé de déchiffrement.
+   - **Symétrique** : une seule clé chiffre et déchiffre.
+   - **Asymétrique** : une paire de clés publique/privée.
+2. **Authentification des parties** : les participants prouvent qu'ils sont autorisés à échanger.
+3. **Protection en transit** : les données restent confidentielles pendant le transfert, même si le réseau est compromis.
 
-## Exemple d’envoi de message avec des clés asymétriques
+Vocabulaire : [Sécurité](securite.md).
 
-### Contexte :
+## Exemple avec des clés asymétriques
 
-- La maison A souhaite envoyer un message confidentiel contenant des données de consommation à la maison B via un broker
-  MQTT.
-- La confidentialité est assurée en chiffrant les données avec la clé publique de B.
+**Contexte.** La maison A envoie à la maison B, via un broker MQTT, des données de consommation confidentielles. On chiffre avec la clé publique de B.
 
-### Étapes :
-
-1. La maison A récupère la clé publique de B.
+1. A récupère la clé publique de B (et vérifie son certificat).
 2. A chiffre le message avec la clé publique de B.
-3. A s’authentifie au broker et envoie le message chiffré au broker MQTT.
-4. Le broker transmet le message à B.
-5. B s’authentifie au broker et déchiffre le message avec sa clé privée pour accéder aux données.
-
-### Diagramme Mermaid pour la confidentialité
+3. A s'authentifie au broker et publie le message chiffré.
+4. Le broker transmet le message à B, sans pouvoir le lire.
+5. B s'authentifie au broker et déchiffre avec sa clé privée.
 
 ```mermaid
 sequenceDiagram
@@ -56,32 +46,26 @@ sequenceDiagram
     B ->> B: Traite les données confidentielles
 ```
 
-### Explications du processus
-
-1. **Initialisation des clés et certificats** :
-    - La maison B obtient un certificat de l'autorité de certification (CA), contenant sa clé publique.
-    - La maison A utilise ce certificat pour s'assurer qu'elle envoie le message à la bonne entité.
-
-2. **Chiffrement des données** :
-    - La maison A chiffre le message avec la clé publique de B. Ce chiffrement garantit que seul B peut lire le message,
-      grâce à sa clé privée.
-
-3. **Transmission via MQTT** :
-    - Le message chiffré est publié sur un topic MQTT.
-    - Le broker MQTT relaie le message sans pouvoir accéder à son contenu, car il n’a pas la clé de déchiffrement.
-
-4. **Déchiffrement et traitement** :
-    - La maison B déchiffre le message avec sa clé privée et accède aux données en toute confidentialité.
-
+Le certificat de B (délivré par la CA) permet à A de s'assurer qu'il envoie à la bonne entité. Seul B, grâce à sa clé privée, peut lire le message ; le broker relaie sans accéder au contenu.
 
 ## Avec clé symétrique
-Le principe est similaire sauf qu’il faut se mettre d’accord sur la clé et que si celle-ci est compromise, tout le
-réseau est compromis !
+
+Même principe, mais il faut **se mettre d'accord sur la clé**, et si celle-ci est compromise, tout le réseau l'est !
 
 ![sym.png](assets/sym.png)
 
+En pratique on combine les deux : une cryptographie asymétrique pour échanger une clé symétrique, puis le chiffrement symétrique (plus rapide) pour les données.
+
+## Limites
+
+- Le chiffrement **ne prouve pas l'auteur** : n'importe qui connaissant la clé publique de B peut lui écrire. Il faut une **signature** ([Réseau de confiance](reseau-confiance.md)).
+- Il **n'empêche pas le rejeu** d'un message intercepté : il faut un identifiant et un horodatage ([D09](../activites/drills/D09-securite.md)).
+- Le **topic** et les en-têtes (qui parle à qui, quand, combien) restent visibles du broker.
+
 ## Conclusion
 
-La confidentialité protège les données échangées contre tout accès non autorisé, même si le réseau ou les
-intermédiaires (comme le broker MQTT) sont compromis. En utilisant le chiffrement asymétrique, les échanges restent
-sécurisés et accessibles uniquement à la maison destinataire.
+La confidentialité protège les données contre tout accès non autorisé, même si le réseau ou les intermédiaires (comme le broker MQTT) sont compromis. Avec le chiffrement asymétrique, seul le destinataire peut lire.
+
+## Pour s'exercer
+
+- Drill : [D09](../activites/drills/D09-securite.md) · Chat : [C7](../activites/chat/C7-confiance.md) · Activité : [Réseau de confiance (AES)](../activites/aie_confiance/README.md)

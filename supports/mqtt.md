@@ -1,109 +1,70 @@
 # MQTT
 
-Le protocole MQTT (Message Queuing Telemetry Transport) est un protocole de communication léger conçu pour les systèmes
-nécessitant des échanges de données rapides et à faible bande passante, comme l'Internet des objets (IoT).
+> **Fallacies :** 1 (le réseau est fiable), 2 (latence nulle).  
+> **À retenir :** MQTT est un bus *publish-subscribe* léger. Il ne vous garantit rien de plus que ce que vous demandez : **QoS** (livraison), **session** (absence), **retain** (arrivée tardive), **LWT** (mort). Chaque garantie a un prix et une limite.
 
-Développé dans les années 1990, MQTT repose sur une architecture de type "publish-subscribe", où les appareils
-communiquent via un serveur central appelé "broker".
+Le protocole MQTT (Message Queuing Telemetry Transport) est conçu pour des échanges rapides à faible bande passante, typiquement l'Internet des objets (IoT) : peu de ressources, connexions instables. Développé dans les années 1990, il repose sur une architecture *publish-subscribe* : les clients ne se parlent pas directement, ils passent par un serveur central, le **broker**.
 
 ![](./assets/mqtt.jpg)
 
-Le protocole MQTT est particulièrement adapté aux environnements avec une bande passante limitée ou des connexions instables, car il consomme peu de ressources et peut fonctionner avec un minimum de données.
+Les clients se connectent au broker en TCP/IP, **publient** des messages sur des **topics**, et d'autres clients s'**abonnent** à ces topics. Un capteur publie sur `moteur/température`, tous les abonnés reçoivent.
 
-Dans ce modèle, les clients (appareils) ne communiquent pas directement entre eux. Ils se connectent au **broker** en TCP/IP et publient des messages sur des **topics** (sujets) spécifiques. D'autres clients peuvent alors s'abonner à ces topics pour recevoir les messages. Par exemple, un capteur de température peut publier des données sur le topic "moteur/température", et tous les appareils abonnés à ce topic recevront les mises à jour.
-
-Les topics sont hiérarchiques, séparés par des barres obliques (`/`). Chaque niveau de la hiérarchie apporte des détails supplémentaires sur le sujet du message, ce qui permet d'organiser et de filtrer les informations.
-
-Exemple: Prenons le topic `maison/salon/temperature`
-
-`maison` est le premier niveau, qui indique un bâtiment spécifique.
-`salon` est le deuxième niveau, indiquant une pièce précise (ici, le salon).
-`temperature` est le troisième niveau, qui précise le type d'information (la température).
+Les topics sont hiérarchiques, séparés par `/` : `maison/salon/temperature` = bâtiment / pièce / type d'information.
 
 ## Utilisation des Wildcards
 
-MQTT permet d'utiliser des caractères génériques (wildcards) pour s’abonner à plusieurs topics en même temps :
+Pour s'abonner à plusieurs topics à la fois :
 
-- `+` pour un niveau : s'abonner à `maison/+/temperature` signifie que l'on recevra tous les messages de température de toutes les pièces de la maison (maison/salon/temperature, maison/cuisine/temperature, etc.).
-- `#` pour plusieurs niveaux : s'abonner à `maison/#` permet de recevoir tous les messages de la maison, peu importe la pièce et le type de données.
-
+- `+` remplace **un** niveau : `maison/+/temperature` = la température de toutes les pièces ;
+- `#` remplace **plusieurs** niveaux (en fin de filtre) : `maison/#` = tout ce qui concerne la maison.
 
 ## Qualité de Service (QoS)
 
-MQTT offre plusieurs fonctionnalités permettant d'assurer un service malgré des événements imprévus.
+MQTT offre plusieurs mécanismes pour assurer un service malgré des événements imprévus.
 
 ### QoS
 
-MQTT offre trois niveaux de QoS en ce qui concerne la livraison des messages :
+| QoS | Garantie | Coût | Conséquence |
+|---|---|---|---|
+| 0 | au plus une fois, sans accusé | le plus léger | un message peut se perdre |
+| 1 | **au moins une fois** | un accusé (PUBACK) | un message peut arriver **en double** → idempotence ([Idempotence](idempotence.md)) |
+| 2 | exactement une fois | 4 messages d'échange | le plus lent |
 
-- QoS 0 : les messages sont envoyés sans garantie de réception.
-- QoS 1 : les messages sont livrés au moins une fois.
-- QoS 2 : les messages sont garantis d'être livrés une seule fois.
+Le QoS effectif d'une livraison est le **minimum** entre celui du publieur et celui de l'abonné.
 
 ### Last Will and Testament (LWT)
 
-Le Last Will and Testament (LWT) est un mécanisme conçu pour informer les autres appareils lorsque l'un des clients est
-déconnecté de manière inattendue.
+Mécanisme qui informe les autres quand un client disparaît sans prévenir. À sa connexion, le client dépose chez le broker un message « testament » (topic, contenu, QoS, retain).
 
-Au moment de sa connexion au broker, le client MQTT peut définir un message LWT qui sera stocké par le broker jusqu'à ce
-que le client se déconnecte.
+- Déconnexion **propre** (le client envoie `DISCONNECT`) : le testament **n'est pas** publié.
+- Déconnexion **anormale** (panne de réseau, coupure de courant, processus tué) : le broker publie lui-même le testament.
 
-- Si le client se déconnecte correctement (en envoyant un message de fin de session, appelé DISCONNECT), le broker sait
-  qu'il n'est plus actif et le message LWT n'est pas envoyé.
-- Si le client perd sa connexion de façon imprévue (par exemple, en cas de panne de réseau ou de coupure de courant), le
-  broker considère cela comme une déconnexion anormale et publie automatiquement le message LWT sur un topic défini.
+C'est le **broker** qui publie, pas le client : voilà pourquoi cela fonctionne quand le client ne peut plus rien faire. Le contenu du testament est figé à la connexion (son horodatage aussi). Voir [D04](../activites/drills/D04-mort-noeud.md).
 
 ### Keep-Alive
 
-Le paramètre Keep-Alive est un intervalle de temps défini par le client MQTT au moment de sa connexion au broker. Ce
-paramètre indique la fréquence à laquelle le client doit envoyer des messages de type PINGREQ au broker pour signaler
-qu'il est toujours en ligne. En retour, le broker répond avec un message PINGRESP. Si le broker ne reçoit pas de PINGREQ
-dans l’intervalle défini, il considère que le client est déconnecté et peut déclencher le message LWT si un LWT est
-configuré.
+Intervalle fixé par le client à la connexion : s'il n'envoie rien pendant ce temps, il envoie un `PINGREQ` (le broker répond `PINGRESP`). Si le broker ne reçoit **rien pendant 1,5 × Keep-Alive**, il considère le client mort, ferme la connexion et publie son LWT.
+
+Compromis : un keep-alive court détecte vite une **mort silencieuse** (câble débranché, pas de fermeture TCP) mais génère du trafic et consomme de l'énergie.
 
 ### Session Persistante
 
-MQTT offre la possibilité de maintenir une session persistante pour les clients qui se déconnectent temporairement.
-Lorsqu'un client utilise une session persistante, le broker garde en mémoire certains états importants, comme les
-abonnements et les messages non délivrés. Cela signifie que si le client se reconnecte plus tard, il pourra récupérer
-tous les messages publiés sur ses topics d'abonnement pendant sa déconnexion. Ce mécanisme est particulièrement utile
-pour les appareils qui peuvent se connecter de façon intermittente, comme les capteurs sur batterie.
+Un client peut demander une session persistante (identifiant client stable, session non « propre »). Le broker conserve alors ses **abonnements** et les **messages QoS 1 et 2** non délivrés pendant son absence, et les lui remet à la reconnexion. Utile pour les appareils à connexion intermittente (capteurs sur batterie). Les messages QoS 0 ne sont pas conservés.
 
 ### Retained Messages (Messages conservés)
 
-Les retained messages permettent de conserver le dernier message publié sur un topic pour les nouveaux clients qui
-s’abonnent à ce topic après la publication. Si un capteur publie une donnée importante, comme une alerte, cette donnée
-restera disponible pour tout nouvel abonné, ce qui assure une certaine persistance des informations.
+Le broker garde le **dernier** message retenu d'un topic et le remet immédiatement à tout nouvel abonné. Utile pour un état courant (« le service est ouvert », une alerte). Danger : un état retenu peut **mentir** (le client est mort, son dernier message dit encore « ouvert ») : on le corrige avec un LWT retenu. Pour effacer un message retenu : publier un contenu vide avec retain.
 
 ### Bufferisation
 
-Lorsqu'un client perd sa connexion au broker, il peut décider de continuer à fonctionner normalement, ce qui va générer
-de nouveaux messages à émettre. Ces messages sont stockés localement dans une queue, ils seront envoyés dans le bon
-ordre au moment où le client se sera reconnecté au broker.
+Quand un client perd sa connexion, il peut continuer à fonctionner et stocker localement les messages à émettre dans une file, envoyés dans l'ordre à la reconnexion. Prévoir une **taille maximale** : une file infinie sature la mémoire.
 
 ### NoLocal
-Par défaut, un client qui envoie un message le reçoit aussi (s’il est abonné au topic correspondant).
-‘NoLocal’ empêche le serveur MQTT de renvoyer un message au client qui l'a publié. Quand ‘NoLocal‘ est activé (valeur 1), le serveur ne transmettra pas les messages au client qui en est l'origine.
 
-``` csharp
-var mqttSubscribeOptions = mqttFactory.CreateSubscribeOptionsBuilder()
-    .WithTopicFilter(t => t
-        .WithTopic("mon/topic")
-        .WithNoLocal())  // Active l'option NoLocal
-    .Build();
+Par défaut, un client abonné à un topic sur lequel il publie reçoit **ses propres messages**. L'option de souscription *NoLocal* (MQTT 5.0 uniquement) demande au broker de ne pas les lui renvoyer. Avec MQTT 3.1.1, on filtre soi-même (par l'émetteur déclaré dans le message).
 
-await mqttClient.SubscribeAsync(mqttSubscribeOptions, CancellationToken.None);
+Cas typique : deux brokers reliés en pont, pour éviter une boucle infinie de messages.
 
-```
+### Abonnements partagés (MQTT 5.0)
 
-### Cas d'usage typique
-
-Cette option est particulièrement utile dans les scénarios de pont (bridging) entre brokers MQTT, pour éviter des boucles infinies de messages lorsqu’un broker se connecte à un autre en tant que client...
-
-Exemple concret :
-
-    Un client publie sur le topic sensors/temperature
-    Ce même client s'abonne à sensors/temperature avec NoLocal activé
-    Résultat: Le client ne recevra PAS ses propres messages, mais recevra bien ceux des autres clients
-
-> Note importante: NoLocal est une fonctionnalité MQTT 5.0
+Avec un filtre `$share/<groupe>/<topic>`, les abonnés d'un même groupe **se partagent** les messages : chaque message n'arrive que chez l'un d'eux, à tour de rôle. C'est de la répartition de charge et du *failover* intégrés (voir [Cluster](cluster.md)).

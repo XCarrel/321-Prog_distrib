@@ -1,0 +1,43 @@
+# Laboratoire : un hôte, un broker, des pannes à la demande.
+#   docker compose up -d                       broker + proxy de pannes
+#   docker compose --profile rabbitmq up -d    + RabbitMQ
+# Voir README.md pour les scénarios de panne.
+name: lab
+
+services:
+  broker:
+    image: eclipse-mosquitto:2
+    ports:
+      - "1883:1883"   # accès direct (fiable)
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    restart: unless-stopped
+
+  # Proxy réseau programmable (Toxiproxy) : latence, coupure, débit limité...
+  # Un client qui passe par 1884 vit sur un réseau "dégradé" à volonté.
+  toxiproxy:
+    image: ghcr.io/shopify/toxiproxy:2.12.0
+    command: ["-host=0.0.0.0", "-config=/config/toxiproxy.json"]
+    ports:
+      - "1884:1884"   # accès via le proxy (dégradable)
+      - "8474:8474"   # API d'administration de Toxiproxy
+    volumes:
+      - ./toxiproxy.json:/config/toxiproxy.json:ro
+    depends_on:
+      - broker
+
+  # Optionnel : même contrat MQTT, autre broker (par exemple RabbitMQ avec le plugin MQTT)
+  rabbitmq:
+    profiles: ["rabbitmq"]
+    image: rabbitmq:4.0-management
+    ports:
+      - "5672:5672"
+      - "1885:1883"   # MQTT RabbitMQ, décalé pour ne pas entrer en conflit
+      - "15672:15672" # console http://localhost:15672
+    environment:
+      RABBITMQ_DEFAULT_USER: ict
+      RABBITMQ_DEFAULT_PASS: "321"
+    command: >
+      /bin/bash -c "rabbitmq-plugins enable --offline rabbitmq_mqtt;
+      rabbitmq-server"
+    restart: on-failure

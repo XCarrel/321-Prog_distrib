@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "dousville/envelope",
+  "title": "Enveloppe Dousville",
+  "type": "object",
+  "required": ["v", "id", "from", "to", "ts", "type", "payload"],
+  "additionalProperties": false,
+  "properties": {
+    "v": { "const": 1 },
+    "id": { "type": "string", "format": "uuid" },
+    "from": { "type": "string", "minLength": 1 },
+    "to": { "type": "string", "minLength": 1, "description": "nom d'une BP, ou * pour tout le monde" },
+    "ts": { "type": "string", "format": "date-time", "description": "UTC, ISO 8601" },
+    "type": { "type": "string", "enum": ["chat", "business"] },
+    "payload": { "type": "object" }
+  }
+}

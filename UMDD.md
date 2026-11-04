@@ -1,11 +1,12 @@
 # Fil rouge "UMDD (Un Monde De Douceurs)"
 
-Nous sommes un groupe d'artisans Boulanger-Pâtissier qui a décidé de bâtir Dousville, la ville de nos rêves, celle des meilleures Boulangeries-Pâtisseries (BP) de tout le cyberspace.
+Nous sommes un groupe d'artisans Boulanger-Pâtissier qui a décidé de bâtir Dousville, la ville de nos rêves, celle des meilleures Boulangeries-Pâtisseries (BP) de tout le cyberspace.  
 Nous disposons d'un terrain sur lequel bâtir notre ville:
 
 ![](./supports/assets/before.png)
 
-Un entrepreneur est déjà passé par là, il a mis à notre disposition un réseau de communication TCP/IP.Il vante le résultat de son travail de la manière suivante :
+Un entrepreneur est déjà passé par là, il a mis à notre disposition un réseau de communication TCP/IP.  
+Il vante le résultat de son travail de la manière suivante :
 
 - Le réseau est fiable
 - Il n'y a aucune latence sur le réseau
@@ -65,7 +66,7 @@ Pour cela, nous utiliserons la sérialisation.
 - Théorie + Drill
 - Chacun crée un commerce: nom, enseigne (image), spécialité (nom + image + prix)
 - Chacun crée un programme qui permet d'afficher sa vitrine à partir d'un objet hardcodé
-- Serialiser sa BP, la recharger à partir du du fichier et se débarrasser des valeurs hardcodées
+- Serialiser sa BP, la recharger à partir du fichier et se débarrasser des valeurs hardcodées
 - Récupérer les BP des autres, afficher plusieurs BP
 
 DoD:
@@ -74,7 +75,7 @@ DoD:
 
 ## Thématique protocole
 
-Maintenant que nous sommes capables de sérialiser et désérialiser des objets, nous allons pouvoir nous les transmettre d'un nœud à l'autre.
+Maintenant que nous sommes capables de sérialiser et désérialiser des objets, nous allons pouvoir nous les transmettre d'un nœud à l'autre.  
 Le réseau que nous avons à notre disposition est certes fonctionnel, mais n'est pas très pratique pour s'envoyer et recevoir des objets sérialisés.
 
 Nous allons maintenant choisir un protocole de niveau intermédiaire qui nous permettra de transporter nos objets d'un point à un autre.
@@ -114,7 +115,7 @@ DoD:
 
 ## Thématique Microservice : Time
 
-À terme, chaque BP va publier ses horaires d'ouverture. Pour que le commerce fonctionne de manière harmonieuse à Dousville, il est donc nécessaire que tout le monde soit à la même heure.
+À terme, chaque BP va publier ses horaires d'ouverture. Pour que le commerce fonctionne de manière harmonieuse à Dousville, il est donc nécessaire que tout le monde soit à la même heure.  
 Nous allons maintenant mettre en place un microservice qui ne fonctionne qu'en lecture : `TimeService` qui diffuse en permanence leur actuelle à Dousville.
 
 ### Activité

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "contrat/log",
+  "title": "Payload log",
+  "type": "object",
+  "required": ["level", "text"],
+  "additionalProperties": false,
+  "properties": {
+    "level": { "enum": ["info", "warn", "error"] },
+    "text": { "type": "string", "minLength": 1 }
+  }
+}

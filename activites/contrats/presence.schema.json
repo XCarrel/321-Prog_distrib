@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "contrat/presence",
+  "title": "Payload presence (retenu sur {racine}/presence/<nœud>)",
+  "type": "object",
+  "required": ["state"],
+  "additionalProperties": false,
+  "properties": {
+    "state": { "enum": ["open", "closed", "died"] }
+  }
+}

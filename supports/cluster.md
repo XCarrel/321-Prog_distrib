@@ -1,70 +1,68 @@
 # Cluster, Load Balancing, Failover & Scalability
 
+> **Fallacies :** 5 (topologie constante), 6 (un seul administrateur), 1 (fiabilité).  
+> **À retenir :** un cluster = plusieurs nœuds qui se présentent comme un seul service. Le plus simple est de le rendre **sans état** (n'importe quel nœud peut répondre). Dès qu'un nœud détient un état, il faut décider **qui** répond, et le pire cas devient « deux nœuds se croient responsables » (*split brain*).
+
 ## 1. Introduction
 
-L'architecture en système distribué a donc certains avantages
+Une architecture distribuée apporte :
 
-- La capacité à répartir la charge de travail (load balancing)
-- Une bonne tolérance aux pannes par la reprise de charge (failover)
-- Flexibilité pour augmenter progressivement les ressources (scalability)
+- la capacité à répartir la charge de travail (**load balancing**) ;
+- une bonne tolérance aux pannes par la reprise de charge (**failover**) ;
+- la souplesse pour augmenter progressivement les ressources (**scalability**).
 
-Ces trois points sont matérialisées au sein d'un cluster
+Ces trois points sont matérialisés au sein d'un **cluster**.
 
 ## 2. Le Cluster
 
 > Un **cluster** est un ensemble coordonné de nœuds qui coopèrent pour fournir un service commun.
 
-Exemple: un cluster de centrales de distribution d'énergie signifie :
+Exemple : un cluster de centrales de distribution d'énergie. Plusieurs centrales répondent aux demandes ; les maisons ne voient qu'un ensemble logique (un service), pas un serveur unique ; la charge peut être répartie ; la panne d'une centrale ne bloque pas le service.
 
-- Plusieurs centrales répondent à des demandes d'énergie
-- Les maisons ne "voient" qu'un ensemble logique (service), pas un serveur
-  unique
-- La charge peut être répartie
-- La panne d'un nœud ne bloque pas le servide (et donc le système)
+Un bon cluster réalise **de manière transparente** pour ses utilisateurs :
 
-Un bon cluster réalise de manière transparente pour ses utilisateurs:
+- la répartition de la charge entre ses nœuds (réduit le temps de traitement apparent) ;
+- la redirection d'un travail non terminé vers un autre nœud (la panne devient invisible) ;
+- l'ajout d'un nouveau nœud.
 
-- La répartition de la charge de travail entre ses noeuds, diminuant ainsi le temps de traitement apparent
-- La redirection d'un job non terminé vers un nouveau noeud, rendant ainsi la panne invisible à l'utilisateur
-- L'ajout d'un nouveau noeud
+## 3. Répartition de charge, aka « Load Balancing »
 
-## 3. Répartition de charge, aka "Load Balancing"
+> Le **load balancing** consiste à diriger une requête entrante vers un nœud fonctionnel et disponible (ou peu chargé).
 
-> Le **load balancing** consiste à diriger une requête entrante vers un noeud fonctionnel et disponible (ou peu chargé).
+Deux modes :
 
-Il y a deux modes de fonctionnement possible pour gérer la répartition:
+1. **Centralisé.** Les requêtes passent par un nœud *Master* qui assigne la tâche à l'un des *Workers*. Algorithmes courants :
+   - **Round Robin** : chacun son tour ;
+   - **Segmentation** : selon une catégorie du client ;
+   - **Least Connections** : au nœud qui a le moins de clients ;
+   - **Least Load** : au nœud qui a le moins de charge de travail ;
+   - **Random** : au hasard.
+2. **Distribué.** Les tâches sont présentées à tous les nœuds, chacun « pioche ». Chaque nœud choisit selon un calcul sur les attributs de la tâche, défini pour qu'aucune tâche ne reste sur le carreau (**Hash-based**).
 
-1. La gestion **Centralisée**: les requêtes passent par un noeud appelé Master, qui assigne explicitement la tâche à un des membres du cluster appelé Worker.  
-   Les algorithmes les plus courants dans ce mode sont: 
-   - **Round Robin** : chacun son tour 
-   - **Segmentation** : la tâche est distribuée en fonction d'une catégorie à laquelle le client client appartient
-   - **Least Connections** : la tâche va au noeud qui a le moins de clients 
-   - **Least Load** : la tâche va au noeud qui a le moins de charge de travail 
-   - **Random** : distribution aléatoire
-
-2. La gestion **Distribuée**: les tâches sont présentées à tous les noeuds, chacun "pioche" dans la liste  
-   Chaque noeud choisit une tâche en fonction d'un calcul effectué sur les attributs de la tâche. Le calcul est définit de telle sorte qu'on assure qu'aucune tâche ne restera sur le carreau (**Hash-based**)
+Avec MQTT 5, les [abonnements partagés](mqtt.md#abonnements-partages-mqtt-5-0) donnent une répartition en round robin sans master.
 
 ## 4. Failover
 
-> Le **failover** est le mécanisme qui permet au cluster de continuer à fonctionner lorsqu'un de ses nœuds tombe.
+> Le **failover** est le mécanisme qui permet au cluster de continuer à fonctionner quand l'un de ses nœuds tombe.
 
-- Si on a une gestion centralisée, le Master ajuste sa liste de Workers
-- Si on a une gestion distribuée, chaque noeud restant doit se reconfigurer pour prendre en charge le travail destiné au noeud tombé
+- Gestion centralisée : le Master ajuste sa liste de Workers.
+- Gestion distribuée : chaque nœud restant se reconfigure pour prendre en charge le travail du nœud tombé.
 
-Dans les deux cas, la difficulté réside dans la détection de la panne: comment faire pour savoir qu'un noeud est "mort" ?  
-Il existe plusieurs stratégies:
+Dans les deux cas, la difficulté est la **détection** de la panne : comment savoir qu'un nœud est mort ?
 
-- **Heartbeat** : chaque émet un signal à intervalle régulier. L'absence de ce signal signifie la mort.
-- **Timeout** : Une question est envoyée, la mort est déclarée si la réponse n'arrive pas dans un temps défini
-- **Détection distribuée** : Chaque noeud évalue l'état des autres et vote pour ou contre l'utilisation de chacun. Exemple célèbre: les ordinateurs de bord de la navette spatiale:  
+- **Heartbeat** : chaque nœud émet un signal à intervalle régulier ; son absence signifie la mort.
+- **Timeout** : une question est envoyée, la mort est déclarée si la réponse n'arrive pas dans le délai.
+- **Détection distribuée** : chaque nœud évalue l'état des autres et vote. Exemple célèbre : les ordinateurs de bord de la navette spatiale.
+
   ![](./assets/sdC4j.jpg)
+
+### Attention : deux nœuds qui se croient responsables
+
+Quand un nœud est seulement **coupé** du reste (et non mort), il peut continuer à se croire responsable pendant qu'un autre prend sa place : c'est le *split brain*. Pour un service sans état (annuaire), deux réponses identiques sont sans gravité ; pour un service qui détient un état (une banque), c'est un double effet. D'où l'importance de l'[idempotence](idempotence.md). Voir [D08](../activites/drills/D08-cluster.md).
 
 ## 5. Scalability
 
-L'augmentation de capacité est en fait tout simplement l'exact inverse de la panne (problème de détection en moins).
+L'augmentation de capacité est l'exact inverse de la panne (sans le problème de détection). On crée le nouveau nœud, puis :
 
-Pour augmenter la capacité d'un cluster, on crée le nouveau noeud, puis:
-
-- Si on a une gestion centraliseé, on ajuste la liste de Workers du Master
-- Si on a une gestion distribuée, on configure la (nouvelle) règle de répartition sur le nouveau noeud et on reconfigure les autres noeuds avec cette même règle
+- gestion centralisée : on ajuste la liste de Workers du Master ;
+- gestion distribuée : on configure la (nouvelle) règle de répartition sur le nouveau nœud et on reconfigure les autres avec la même règle.

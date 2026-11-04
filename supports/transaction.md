@@ -1,63 +1,36 @@
 # Transactions
 
-Les transactions jouent un rôle crucial pour garantir la **consistance** des données
-entre différents services ou systèmes. La notion de transaction est **étroitement liée à [l’idempotence](idempotence.md)**, car elles visent
-toutes deux à garantir que les opérations soient exécutées de manière fiable et cohérente, même en cas de défaillances.
+> **Fallacies :** 1 (fiabilité), 6 (plusieurs administrateurs).  
+> **À retenir :** entre deux services indépendants on ne peut pas avoir d'atomicité « gratuite ». On obtient la cohérence **à terme** par des étapes **idempotentes** et des **compensations**. Le pire n'est pas l'échec, c'est le **résultat inconnu** (« a-t-il payé ou pas ? »).
 
-## Qu'est-ce qu'une Transaction ?
+Les transactions garantissent la **consistance** des données entre services. Elles sont **étroitement liées à [l'idempotence](idempotence.md)** : toutes deux visent à exécuter les opérations de façon fiable et cohérente malgré les défaillances.
 
-Une transaction est une unité logique de travail composée d'une ou plusieurs opérations qui doivent être exécutées selon
-les propriétés **ACID** (Atomicité, Cohérence, Isolation, Durabilité) :
+## Qu'est-ce qu'une transaction ?
 
-1. **Atomicité** : Toutes les opérations d'une transaction doivent réussir ou échouer ensemble. Aucune opération
-   partielle n'est autorisée.
-2. **Cohérence** : L'état du système reste valide avant et après la transaction.
-3. **Isolation** : Les modifications d'une transaction ne sont pas visibles pour d'autres transactions avant leur
-   validation (commit).
-4. **Durabilité** : Une fois validée, une transaction est persistée et son effet est permanent, même en cas de panne.
+Une unité logique de travail composée d'une ou plusieurs opérations, selon les propriétés **ACID** :
 
-Dans une architecture distribuée, appliquer ces propriétés devient plus complexe, car plusieurs systèmes ou services
-peuvent être impliqués.
+1. **Atomicité** : tout réussit ou tout échoue, jamais de résultat partiel.
+2. **Cohérence** : l'état du système reste valide avant et après.
+3. **Isolation** : les modifications ne sont pas visibles par d'autres transactions avant validation (*commit*).
+4. **Durabilité** : une fois validée, l'effet est permanent, même en cas de panne.
 
-## Transactions dans une Architecture Distribuée
+En architecture distribuée, plusieurs systèmes sont impliqués : c'est déjà difficile entre deux interlocuteurs (un client et un broker), et plus encore entre plusieurs microservices.
 
-Déjà pas facile à résoudre entre 2 interlocuteurs (par exemple un client et un broker), dans une architecture distribuée,
-une transaction peut impliquer plusieurs échanges entre différents microservices, ce qui nécessite des mécanismes pour
-garantir l'intégrité des données. Voici les principaux concepts et implications :
-
-### 1. **Transactions Distribuées**
+## Transactions distribuées
 
 ![dt.jpg](assets/dt.jpg)
 
-Une transaction distribuée englobe plusieurs systèmes. Par exemple, dans une application e-commerce :
+Exemple de commande : (1) le client passe commande, (2) le stock est mis à jour, (3) le paiement est validé. Si une sous-opération échoue, toutes les autres doivent être annulées (*rollback*).
 
-- Le client passe une commande (service 1).
-- Le stock est mis à jour (service 2).
-- Le paiement est validé (service 3).
+Il faut un **coordinateur**, souvent selon le **Two-Phase Commit (2PC)** : tous les participants confirment qu'ils *peuvent* valider, puis le coordinateur ordonne la validation.
 
-Chaque sous-opération doit réussir pour que la transaction complète soit validée. Si une sous-opération échoue, toutes
-les autres doivent être annulées (rollback).
+![2PC.jpg](assets/2PC.jpg)
 
-#### Problème : Coordination
+Inconvénients : **complexité** (blocages possibles), **latence** (échanges entre systèmes), **faible résilience** (si le coordinateur tombe, la transaction reste bloquée). Approprié quand la cohérence forte est indispensable.
 
-- La coordination des transactions entre services nécessite un **coordinateur de transactions distribué**, souvent basé
-  sur un protocole comme **Two-Phase Commit (2PC)**.
+### Exemple en trois étapes avec MQTT
 
-#### Inconvénients :
-
-- **Complexité élevée** : Le 2PC est difficile à implémenter et peut entraîner des blocages.
-- **Latence accrue** : Les validations entre systèmes prennent du temps.
-- **Faible résilience** : Si le coordinateur échoue, la transaction peut rester bloquée.
-
-### Cas d'utilisation : Création d'une commande en trois étapes
-
-1. **Créer une commande** (Service Commande, publié sur `orders/create`).
-2. **Réserver le stock** (Service Stock, publié sur `stock/reserve`).
-3. **Valider le paiement** (Service Paiement, publié sur `payment/charge`).
-
-Si une étape échoue, les étapes précédentes doivent être compensées.
-
-### Diagramme des Échanges MQTT dans un scénario optimiste
+Création d'une commande (scénario optimiste) : commande (`orders/create`), réservation du stock (`stock/reserve`), paiement (`payment/charge`). Si une étape échoue, les précédentes doivent être compensées.
 
 ```mermaid
 sequenceDiagram
@@ -77,107 +50,47 @@ sequenceDiagram
     Paiement ->> Broker: Publish (payment/confirmed)
     Broker ->> Commande: Deliver (payment/confirmed)
     Broker ->> Stock: Deliver (payment/confirmed)
-    Stock ->> Broker: (publish/stock adjusted)
+    Stock ->> Broker: Publish (stock/adjusted)
 ```
 
-### 2. **Transactions Compensatoires (Sagas)**
+## Transactions compensatoires (Sagas)
 
-Plutôt que d'utiliser des transactions ACID complexes dans une architecture distribuée, une approche populaire est celle
-des **sagas** (terme des auteurs qui indique une transaction 'longue'), où chaque étape d'une transaction peut être
-**compensée** par une action inverse en cas d'échec.
+Plutôt qu'une transaction ACID complexe, on utilise des **sagas** (le terme désigne une transaction « longue ») : chaque étape peut être **compensée** par une action inverse en cas d'échec.
 
-#### Exemple :
+Exemple : (1) créer la commande, (2) sortir du stock, (3) débiter le client. Si l'étape 3 échoue, on **compense** : remettre dans le stock, supprimer la commande.
 
-1. **Étape 1** : Créer une commande (service 1).
-2. **Étape 2** : Sortir du stock (service 2).
-3. **Étape 3** : Débiter le client (service 3).
-4. **Compensation** : Si l'étape 3 échoue, les étapes 1 et 2 doivent être "inversées" :
-   - Supprimer la commande.
-   - Remettre dans le stock.
+| | Avantages | Inconvénients |
+|---|---|---|
+| **Sagas** | résilience (pas de coordinateur central), scalabilité (chaque service gère ses compensations), plus simple à implémenter | chaque étape doit définir sa compensation ; les **états intermédiaires sont visibles** avant la fin |
 
-#### Avantages des sagas :
+Bien adaptées aux microservices et à MQTT : chaque service publie des messages pour confirmer ou annuler une étape.
 
-- **Résilience** : Moins de dépendance à un coordinateur central.
-- **Scalabilité** : Chaque service gère ses propres compensations.
-- **Simplicité** : Plus facile à implémenter dans des systèmes distribués.
+## Rôle de l'idempotence
 
-#### Inconvénients :
+En cas de retransmission ou de reprise après échec, chaque étape doit pouvoir être **répétée sans effet indésirable**. Si une requête de débit est envoyée deux fois, le service de paiement doit reconnaître qu'il s'agit de la même transaction et éviter un double débit.
 
-- **Complexité logique** : Chaque étape doit définir des actions compensatoires.
-- **Visibilité** : Les états intermédiaires peuvent être visibles avant que la transaction ne soit complète.
+- **Identifiants uniques** : chaque étape porte un identifiant, qui permet de détecter et d'ignorer les doublons.
+- **Stockage des états** : les services enregistrent les transactions déjà traitées.
 
-### 3. **Rôle de l'Idempotence**
+Le cas le plus vicieux : le service a exécuté l'opération puis plante **avant de répondre**. L'appelant ne sait pas si elle a eu lieu. La seule réponse sûre : **renvoyer la même requête avec le même identifiant** (le service idempotent retourne le résultat de la première exécution). Voir [D06](../activites/drills/D06-transaction.md).
 
-L'idempotence est essentielle pour gérer les échecs dans les transactions distribuées. En cas de retransmission ou de
-reprise après un échec, chaque étape d'une transaction doit pouvoir être répétée sans provoquer d'effet indésirable.
+## Comparaison des modèles
 
-#### Exemple :
+| Modèle | Principe | Convient à |
+|---|---|---|
+| Centralisé (ACID) | une transaction globale, un *transaction manager* | systèmes monolithiques ou peu distribués |
+| Distribué (2PC) | coordination par un protocole commun | cohérence forte nécessaire |
+| Saga | étapes indépendantes + compensations | microservices, systèmes asynchrones |
 
-- Si une requête pour débiter un client est envoyée deux fois, le service de paiement doit détecter qu'il s'agit de la
-  même transaction et éviter un double débit.
+## Recommandations
 
-#### Stratégies pour l'idempotence :
+1. **Chaque étape idempotente**, identifiée par un identifiant unique.
+2. **Privilégier les sagas** dans les architectures distribuées modernes : compromis entre simplicité et cohérence.
+3. **Suivre les états intermédiaires** (journal ou base de données) : une transaction `en cours`, `payée` ou `annulée` doit être visible.
+4. **Outils** : *Outbox pattern* (garantir la livraison des messages en cas de panne), middleware transactionnel (encapsule la transaction et gère les échecs).
 
-- **Identifiants uniques** : Chaque étape est identifiée par un ID unique, permettant de détecter et ignorer les
-  doublons.
-- **Stockage des états** : Les services doivent enregistrer les transactions déjà traitées pour éviter les répétitions.
+En combinant **idempotence** et **transactions compensatoires**, on conçoit des systèmes distribués robustes qui garantissent cohérence et résilience face aux défaillances.
 
-### Gestion des Transactions dans une Architecture Distribuée
+## Pour s'exercer
 
-#### Modèle 1 : Transactions Centralisées (ACID)
-
-- Toutes les opérations sont regroupées dans une transaction globale.
-- Utilisation d'un **transaction manager**.
-- Approprié pour les systèmes monolithiques ou faiblement distribués.
-
-#### Modèle 2 : Transactions Distribuées (2PC)
-
-- Coordination entre plusieurs services via un protocole comme **2PC**.
-- Utilisé dans les architectures où la consistance forte est nécessaire.
-
-![2PC.jpg](assets/2PC.jpg)
-
-#### Modèle 3 : Sagas (Transactions Asynchrones)
-
-- Chaque service exécute sa partie de la transaction de manière indépendante.
-- Si une étape échoue, des actions compensatoires sont déclenchées.
-- Approprié pour les architectures de microservices.
-
-### Recommandations
-
-1. **Utiliser l'idempotence** :
-   Chaque étape d'une transaction doit être idempotente pour éviter les duplications et garantir la résilience.
-
-2. **Privilégier les Sagas** :
-   Les sagas sont mieux adaptées aux architectures distribuées modernes, offrant un compromis entre simplicité et
-   consistance.
-
-3. **Monitorer les états intermédiaires** :
-   Utilisez un journal ou une base de données pour suivre l'état de chaque étape d'une transaction.
-
-4. **Adopter des outils appropriés** :
-   - **Outbox Pattern** : Pour garantir la livraison des messages en cas de panne.
-   - **Middleware transactionnel** : Pour encapsuler les transactions et gérer les échecs automatiquement.
-
-En combinant **idempotence** et **transactions compensatoires**, vous pouvez concevoir des systèmes distribués robustes
-qui garantissent la cohérence et la résilience face aux défaillances.
-
-### Transactions et Idempotence avec MQTT dans une Architecture Distribuée
-
-L'intégration de **transactions** dans une architecture distribuée utilisant **MQTT** nécessite une gestion rigoureuse
-pour garantir la cohérence des données et la résilience en cas de défaillances. Voici comment appliquer ces concepts en
-combinant idempotence et transactions compensatoires.
-
-### Principes des Transactions avec MQTT
-
-1. **Nature asynchrone** :
-   MQTT repose sur un modèle de publication/souscription, ce qui le rend asynchrone par nature. Les transactions doivent
-   être coordonnées entre producteurs et consommateurs.
-
-2. **Idempotence** :
-   Les messages reçus par les consommateurs doivent être traités de manière idempotente pour éviter des modifications
-   incorrectes en cas de retransmission.
-
-3. **Sagas** :
-   Les **transactions compensatoires** (sagas) sont bien adaptées aux architectures avec MQTT, car chaque service peut
-   publier des messages pour confirmer ou annuler une étape.
+- Drill : [D06](../activites/drills/D06-transaction.md) · Activité : [Transat](../activites/transat/README.md)

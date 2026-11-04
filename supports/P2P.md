@@ -1,28 +1,29 @@
 # Architecture P2P
 
+> **Fallacies :** 5 (topologie), 6 (plusieurs administrateurs).  
+> **À retenir :** en P2P, chaque nœud est à la fois client et serveur. On supprime le serveur central (et son point de défaillance), mais chaque nœud doit tout savoir faire, et trouver ses pairs devient le problème.
+
 ![p2p.gif](assets/p2p.gif)
 
 ## Rappels
 
-- Une Architecture Client-Serveur est un modèle où un client (ordinateur ou application) demande des services ou des données à un serveur centralisé, qui
-  répond aux requêtes. Exemple : Un utilisateur accède à une page web via un navigateur (client), le serveur web lui fournit la page.
-
-- Une Architecture microservices décompose le système en plusieurs services indépendants et autonomes, pouvant être déployés sur des noeuds distants.
+- **Client-serveur** : un client (ordinateur ou application) demande des services ou des données à un serveur centralisé, qui répond. Exemple : un navigateur demande une page à un serveur web.
+- **Microservices** : le système est décomposé en services indépendants et autonomes, déployables sur des nœuds distants ([Microservices](microservice.md)).
 
 ## Architecture Peer-to-Peer (P2P)
 
-Une architecture P2P combine certains aspects de ces deux architecture:
+Le P2P combine des aspects des deux :
 
-- Chaque noeud (ou "peer") agit à la fois comme client et serveur
-- Les peers sont généralement déployés sur des machines distinctes, reliées entre elles par un réseau de communication commun
-- On les nomme "peers" parce qu'ils ont tous les mêmes fonctionnalités
+- chaque nœud (*peer*) agit à la fois comme **client et serveur** ;
+- les peers sont déployés sur des machines distinctes, reliées par un réseau commun ;
+- on les nomme « peers » parce qu'ils ont tous les **mêmes fonctionnalités**.
 
-C'est une forme d'architecture distribuée. Elle présente donc les mêmes avantages et inconvénients que l'architecture microservices.  
-Elle a toutefois l'inconvénient de limiter l'évolutivité fonctionnelle puisque tous les noeuds sont similaires et doivent donc tous implémenter toutes les fonctionnalités recherchées.
+C'est une architecture distribuée : elle présente les mêmes avantages et inconvénients que les microservices. Elle limite en plus l'**évolutivité fonctionnelle** : tous les nœuds étant similaires, tous doivent implémenter toutes les fonctionnalités. Exemple : partage de fichiers avec BitTorrent.
 
-Exemple : Partage de fichiers via BitTorrent.
+## Et avec un broker ?
+
+Un broker MQTT est un point central : on n'est pas en P2P pur. On peut toutefois s'en approcher : les pairs s'**annoncent** (présence), se **découvrent** (annuaire ou retain) et s'adressent directement par des topics dédiés (un topic par destinataire, comme un identifiant de destinataire dans le message ou `chat/dm/<nom>` dans le chat). Le broker n'est plus qu'un tuyau, mais reste un point de défaillance : voir [Cluster](cluster.md).
 
 ## Conclusion
 
-Le choix entre P2P et Client-Serveur dépend des besoins spécifiques du système (scalabilité, coût, sécurité). Les deux
-architectures ont leurs usages particuliers et se complètent souvent dans des environnements modernes.
+Le choix entre P2P et client-serveur dépend des besoins (scalabilité, coût, sécurité). Les deux architectures ont leurs usages et se complètent souvent dans les environnements modernes.
