@@ -50,3 +50,23 @@ Nous avons commencé un petit [drill](./drills/OODrills/) OO pour nous assurer q
 Quel que soit le chemin, nous ne pourrons pas nous entendre si nous ne maîtrisons pas tous le concept de sérialisation. Nous avons donc commencé par étudier la [théorie](./supports/Sérialisation.md) de ce concept, puis nous avons commencé un petit [drill](./drills/serialisation/).
 
 On s'est arrêté là, on reprendra et finira les deux drills mercredi
+
+### Mercredi 4 novembre
+
+Nous allons finir les deux drills (OO et sérialisation).
+
+Nous ferons un debrief avec un focus sur la comparaison par valeur (`Equals`) et par référence (`==`)
+
+Chacun commencera la réalisation de son bureau, l'endroit à partir duquel il va gérer sa BP.  
+Les conditions suivantes s'appliquent à tous les bureaux:
+- Le stack utilisé pour son développement est libre. Le code est personnel, il est maintenu dans un repo personnel.
+- Le modèle minimal de BP contient:
+  - `ID`, un ID de commerce, une chaine de caractères satisfaisant `^COM-[A-Z]+(?:-[A-Z]+)*$` qui identifie le commerce sans ambiguïté
+  - `Name`, le nom public du commerce ("Au bon croissant", "Le Mille-Miettes", ...)
+  - `Logo`, une image, prévue pour être affichée en format 16:9
+  - `Special`, un produit "phare"
+- Votre bureau peut s'appuyer sur un modèle plus étendu, mais ces propriétés sont obligatoires
+- Un produit est modélisé avec
+  - (TBD)
+
+On échange des BP sérialisées par Discord
