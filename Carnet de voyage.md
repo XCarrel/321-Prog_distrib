@@ -53,22 +53,19 @@ On s'est arrêté là, on reprendra et finira les deux drills mercredi
 
 ### Mercredi 4 novembre
 
-Nous allons discuter un peu d'[actualité](https://www.24heures.ch/eca-vaud-perd-12-9-millions-pour-un-logiciel-jamais-livre-597188765739).
+Nous avons discuté un peu d'[actualité](https://www.24heures.ch/eca-vaud-perd-12-9-millions-pour-un-logiciel-jamais-livre-597188765739).
 
-Je vais reprendre rapidement la portée générale du projet (voir plus loin pourquoi)
+J'ai repris rapidement la portée générale du projet (voir plus loin pourquoi).
 
-Vous allez finir les deux drills (OO et sérialisation).
+Vous avez avancé sur les deux drills (OO et sérialisation), sans les finir complètement.
 
-Ceux qui auront terminé avant commenceront à travailler sur leur projet, en attendant
+Nous avons fait un debrief avec un focus sur la comparaison par valeur (`Equals`) et par référence (`==`).
 
-Nous ferons un debrief avec un focus sur la comparaison par valeur (`Equals`) et par référence (`==`)
+Nous avons décidé de garder le thème des boulangerie-pâtisseries pour notre projet.
 
-Nous allons décider du thème de notre projet
-_(Il faudra peut-être changer ce qui suit en fonction des décisions prises)_
+J'ai créé le repo, l'équipe et les droits d'accès.  
 
-XCL créera le repo, l'équipe et les droits d'accès.  
-
-Pendant ce temps, chacun commencera la réalisation de son app "backoffice", l'endroit à partir duquel il va gérer sa BP.  
+Chacun a commencé la réalisation de son app "backoffice", l'endroit à partir duquel on va gérer sa BP.  
 Les conditions suivantes s'appliquent à tous les backoffices:
 - Le stack utilisé pour son développement est libre. 
 - Il doit pouvoir s'intégrer à notre infrastructure de communication (MQTT)
@@ -95,6 +92,45 @@ Objectifs individuels:
 - Echanger des fichiers par Discord, afficher le business d'un autre dans son backoffice
 
 DoD:
-- [ ] Le repo du projet commun est créé sur Github
-- [ ] Il est privé, accessible par tous les membres de l'équipe
-- [ ] On a défini l'endroit où sont les modèles de référence : 
+- [x] Le repo du projet commun est créé sur Github : https://github.com/ETML-INF/UMDD
+- [x] Il est privé, accessible par tous les membres de l'équipe
+- [ ] On a défini l'endroit où sont les modèles de référence. (_pas fait_)
+
+### Lundi 9 novembre
+
+On visait à:
+- Finaliser les BP 1.0 : Modéliser, Afficher, Sérialiser le modèle (bouton), désérialiser le modèle (démarrage)
+- Faire le checkpoint à 9h50 après la pause
+- Voir la théorie NTP
+- Définir le format du message NTP
+- Être capable de relire une heure "UMDD-NTP" et l'afficher 
+- Faire des User Stories
+
+DoD:
+- [x] Toutes les BP affichent et (dé)sérialisent
+- [x] Format "UMDD-NTP": dans le [readme UMDD](https://github.com/ETML-INF/UMDD/tree/develop#Time)
+- [~] Toutes les BP affichent la même heure
+
+### Mercredi 11 novembre
+
+On va définir et mettre en place une infrastructure de communication par dessus le réseau TCP/IP déjà disponible.
+
+Il y a plusieurs alternatives possibles. Nous pourrions envisager de chercher, essayer, tester, évaluer pour ensuite faire notre choix. Le temps que cela prendrait serait toutefois prohibitif. Nous allons donc partir sans analyse sur une des solutions possibles: MQTT. Nous discuterons en fin de module sur la pertinence de ce choix, une fois que nous l'aurons expérimenté.
+
+Nous allons voir la [théorie MQTT](./supports/mqtt.md).
+
+Nous avons ensuite des choix à faire ensemble:
+- Quel broker MQTT utilisons-nous ? Comment en garantir la disponibilité continue ?
+- Quelle est la structure des topics ?
+- Comment est-ce que la "Source de temps" va-t-elle s'en servir pour diffuser l'heure ?
+
+Chacun codera sa source de temps, nous en sélectionneront une qui deviendra officielle.  
+Etapes minimales:
+1. Être capable d'envoyer un message json sur un topic choisi à un broker MQTT
+2. Envoyer son heure courante chaque seconde  
+(ensuite)
+3. Dockeriser
+4. Permettre de définir un décalage temporel
+5. Permettre de définir un facteur d'accélération du temps
+
+Chacun ajoutera à sa BP la réception du message de temps et l'affichage dynamique.
