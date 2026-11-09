@@ -109,13 +109,13 @@ On visait à:
 DoD:
 - [x] Toutes les BP affichent et (dé)sérialisent
 - [x] Format "UMDD-NTP": dans le [readme UMDD](https://github.com/ETML-INF/UMDD/tree/develop#Time)
-- [~] Toutes les BP affichent la même heure
+- [ ] Toutes les BP affichent la même heure
 
 ### Mercredi 11 novembre
 
 On va définir et mettre en place une infrastructure de communication par dessus le réseau TCP/IP déjà disponible.
 
-Il y a plusieurs alternatives possibles. Nous pourrions envisager de chercher, essayer, tester, évaluer pour ensuite faire notre choix. Le temps que cela prendrait serait toutefois prohibitif. Nous allons donc partir sans analyse sur une des solutions possibles: MQTT. Nous discuterons en fin de module sur la pertinence de ce choix, une fois que nous l'aurons expérimenté.
+Il y a plusieurs alternatives possibles. Nous pourrions envisager de chercher, essayer, tester, évaluer, bref: expérimenter pour ensuite faire notre choix. Le temps que cela prendrait serait toutefois prohibitif. Nous allons donc partir sans analyse sur une des solutions possibles: MQTT. Nous discuterons de la pertinence de ce choix en fin de module, une fois que nous l'aurons expérimenté.
 
 Nous allons voir la [théorie MQTT](./supports/mqtt.md).
 
@@ -124,13 +124,26 @@ Nous avons ensuite des choix à faire ensemble:
 - Quelle est la structure des topics ?
 - Comment est-ce que la "Source de temps" va-t-elle s'en servir pour diffuser l'heure ?
 
-Chacun codera sa source de temps, nous en sélectionneront une qui deviendra officielle.  
+Des volontaires coderont une source de temps: un, deux ou trois groupes de une ou deux personnes.  
+Le code est dans le dépôt UMDD, sur une branche.  
+Nous en sélectionnerons une qui deviendra officielle (merged).  
 Etapes minimales:
 1. Être capable d'envoyer un message json sur un topic choisi à un broker MQTT
 2. Envoyer son heure courante chaque seconde  
-(ensuite)
-3. Dockeriser
-4. Permettre de définir un décalage temporel
+3. Dockeriser  
+   
+(ensuite)  
+
+4. Permettre de définir un décalage temporel  
 5. Permettre de définir un facteur d'accélération du temps
 
+**Attention**: Il s'agit là de code commun cette fois. En fin de module, tout le monde est sensé être en mesure de débugger ou améliorer ce composant!  
+
 Chacun ajoutera à sa BP la réception du message de temps et l'affichage dynamique.
+
+DoD:
+- [ ] Le broker MQTT de Dousville est défini et documenté
+- [ ] Le broker est disponible
+- [ ] Le topic pour la diffusion de l'heure est défini et documenté
+- [ ] Une source de temps diffuse l'heure commune
+- [ ] Toutes les BP affichent l'heure dynamiquement
