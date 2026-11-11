@@ -128,7 +128,7 @@ Nous reprendrons la pratique, chacun ayant pour but la désérialisation d'un ob
 
 Ceux qui auront atteint cet objectif se mettrons à coder une source de temps, seul ou à deux (max). Ils mettront leur code dans le dépôt UMDD, sur une branche ([gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)).  
 
-Etapes minimales:
+Etapes:
 1. Être capable d'envoyer un message json sur un topic choisi à un broker MQTT
 2. Envoyer son heure courante chaque seconde  
 3. Dockeriser  
