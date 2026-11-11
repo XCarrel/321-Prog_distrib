@@ -121,8 +121,11 @@ Nous allons voir la [théorie MQTT](./supports/mqtt.md).
 
 Nous avons ensuite des choix à faire ensemble:
 - Quel broker MQTT utilisons-nous ? Comment en garantir la disponibilité continue ?
+  - On commence avec `mqtt.blue.section-inf.ch`, à voir si on utilise une autre infra plus tard
 - Quelle est la structure des topics ?
+  - voir [notre repo](https://github.com/ETML-INF/UMDD/blob/develop/README.md#topics)
 - Comment est-ce que la "Source de temps" va-t-elle s'en servir pour diffuser l'heure ?
+  - diffusion de l'heure selon notre modèle dans le topic `umddcmid3b/time` chaque seconde
 
 Nous reprendrons la pratique, chacun ayant pour but la désérialisation d'un objet porteur du timestamp unix.  
 
