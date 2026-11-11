@@ -124,18 +124,18 @@ Nous avons ensuite des choix à faire ensemble:
 - Quelle est la structure des topics ?
 - Comment est-ce que la "Source de temps" va-t-elle s'en servir pour diffuser l'heure ?
 
-Des volontaires coderont une source de temps: un, deux ou trois groupes de une ou deux personnes.  
-Le code est dans le dépôt UMDD, sur une branche.  
-Nous en sélectionnerons une qui deviendra officielle (merged).  
+Nous reprendrons la pratique, chacun ayant pour but la désérialisation d'un objet porteur du timestamp unix.  
+
+Ceux qui auront atteint cet objectif se mettrons à coder une source de temps, seul ou à deux (max). Ils mettront leur code dans le dépôt UMDD, sur une branche ([gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)).  
+
 Etapes minimales:
 1. Être capable d'envoyer un message json sur un topic choisi à un broker MQTT
 2. Envoyer son heure courante chaque seconde  
 3. Dockeriser  
-   
-(ensuite)  
-
 4. Permettre de définir un décalage temporel  
 5. Permettre de définir un facteur d'accélération du temps
+
+Quand nous en aurons trois qui semblent prêtes au moins à être dockerisées, nous en sélectionnerons une qui deviendra officielle (merged). Les autres seront mises de côté (mais pas abandonnées!).
 
 **Attention**: Il s'agit là de code commun cette fois. En fin de module, tout le monde est sensé être en mesure de débugger ou améliorer ce composant!  
 
