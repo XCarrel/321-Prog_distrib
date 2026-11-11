@@ -126,7 +126,7 @@ Nous avons ensuite des choix à faire ensemble:
 
 Nous reprendrons la pratique, chacun ayant pour but la désérialisation d'un objet porteur du timestamp unix.  
 
-Ceux qui auront atteint cet objectif se mettrons à coder une source de temps, seul ou à deux (max). Ils mettront leur code dans le dépôt UMDD, sur une branche ([gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)).  
+Ceux qui auront atteint cet objectif se mettront à coder une source de temps, seul ou à deux (max). Ils mettront leur code dans le dépôt UMDD, sur une branche ([gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)).  
 
 Etapes:
 1. Être capable d'envoyer un message json sur un topic choisi à un broker MQTT
