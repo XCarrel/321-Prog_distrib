@@ -113,40 +113,41 @@ DoD:
 
 ### Mercredi 11 novembre
 
-On va définir et mettre en place une infrastructure de communication par dessus le réseau TCP/IP déjà disponible.
+On a défini et mis en place une infrastructure de communication par dessus le réseau TCP/IP déjà disponible.
 
-Il y a plusieurs alternatives possibles. Nous pourrions envisager de chercher, essayer, tester, évaluer, bref: expérimenter pour ensuite faire notre choix. Le temps que cela prendrait serait toutefois prohibitif. Nous allons donc partir sans analyse sur une des solutions possibles: MQTT. Nous discuterons de la pertinence de ce choix en fin de module, une fois que nous l'aurons expérimenté.
+Il y avait plusieurs alternatives possibles. Nous aurions pu envisager de chercher, essayer, tester, évaluer, bref: expérimenter pour ensuite faire notre choix. Le temps que cela aurait pris aurait toutefois été prohibitif. Nous sommes donc partis sans analyse sur une des solutions possibles: MQTT. Nous avons convenu qu'il faudra discuter la pertinence de ce choix en fin de module, une fois que nous l'aurons expérimenté.
 
-Nous allons voir la [théorie MQTT](./supports/mqtt.md).
+Nous avons vu la [théorie MQTT](./supports/mqtt.md).
 
-Nous avons ensuite des choix à faire ensemble:
-- Quel broker MQTT utilisons-nous ? Comment en garantir la disponibilité continue ?
-  - On commence avec `mqtt.blue.section-inf.ch`, à voir si on utilise une autre infra plus tard
+Nous avons eu des choix à faire ensemble:
+- Quel broker MQTT utiliser ? Comment en garantir la disponibilité continue ?
+  - Voir section [MQTT](https://github.com/ETML-INF/UMDD/blob/develop/README.md#mqtt) de notre repo
 - Quelle est la structure des topics ?
-  - voir [notre repo](https://github.com/ETML-INF/UMDD/blob/develop/README.md#topics)
-- Comment est-ce que la "Source de temps" va-t-elle s'en servir pour diffuser l'heure ?
-  - diffusion de l'heure selon notre modèle dans le topic `umddcmid3b/time` chaque seconde
+  - Voir section [MQTT](https://github.com/ETML-INF/UMDD/blob/develop/README.md#mqtt) de notre repo
+- Comment la "Source de temps" s'en est-elle servie pour diffuser l'heure ?
+  - Sérialise et diffuse son heure actuelle chaque seconde sur le topic choisi
 
-Nous reprendrons la pratique, chacun ayant pour but la désérialisation d'un objet porteur du timestamp unix.  
+Nous avons repris la pratique, chacun ayant pour but la désérialisation d'un objet porteur du timestamp unix.  
 
-Ceux qui auront atteint cet objectif se mettront à coder une source de temps, seul ou à deux (max). Ils mettront leur code dans le dépôt UMDD, sur une branche ([gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)).  
+Théophile, Damien, Erdem et Albert se sont mis à coder une source de temps. Ils ont mis leur code dans le dépôt UMDD, sur une branche ([gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)).  
 
-Etapes:
+Etapes visées:
 1. Être capable d'envoyer un message json sur un topic choisi à un broker MQTT
 2. Envoyer son heure courante chaque seconde  
 3. Dockeriser  
 4. Permettre de définir un décalage temporel  
 5. Permettre de définir un facteur d'accélération du temps
 
-Quand nous en aurons trois qui semblent prêtes au moins à être dockerisées, nous en sélectionnerons une qui deviendra officielle (merged). Les autres seront mises de côté (mais pas abandonnées!).
+Deux sources ont atteint l'étape 3.  
+4 et 5 attendront.
 
-**Attention**: Il s'agit là de code commun cette fois. En fin de module, tout le monde est sensé être en mesure de débugger ou améliorer ce composant!  
+**Attention**: Il s'agit là de code commun cette fois. En fin de module, tout le monde est censé être en mesure de débugger ou améliorer ce composant!  
 
-Chacun ajoutera à sa BP la réception du message de temps et l'affichage dynamique.
+Chacun a ajouté à sa BP la réception du message de temps et l'affichage dynamique.
 
 DoD:
-- [ ] Le broker MQTT de Dousville est défini et documenté
-- [ ] Le broker est disponible
-- [ ] Le topic pour la diffusion de l'heure est défini et documenté
-- [ ] Une source de temps diffuse l'heure commune
-- [ ] Toutes les BP affichent l'heure dynamiquement
+- [x] Le broker MQTT de Dousville a été défini et documenté
+- [x] Le broker a été disponible
+- [x] Le topic pour la diffusion de l'heure a été défini et documenté
+- [x] Une source de temps a diffusé l'heure commune
+- [x] Toutes les BP ont affiché l'heure dynamiquement. (sauf Théophile et Tony)
