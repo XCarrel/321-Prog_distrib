@@ -164,6 +164,10 @@ DoD:
 
 Notre objectif global sera de mettre en place nos contrats JSON et que chaque BP applique les contrats `time` et `log`.
 
+Nous allons parcourir ensemble le support de théorie des [Microservices](./supports/microservice.md) et mettre en place le microservice `Log`
+
+Nous allons faire le checkpoint NTP/MQTT
+
 DoD Globale:
 
 - [ ] Nos contrats `envelope`, `time` et `log` sont dans notre [repo UMDD](https://github.com/ETML-INF/UMDD/tree/develop/doc/contracts)
@@ -176,6 +180,9 @@ DoD Globale:
 
 DoD Individuelle:
 
-| Quoi                                    | Zidane | Erdem | Albert | Gillian | Kiril | Tony | Théophile | Gianmarco | Damien R | Snehan | Sacha | Damien C |
-| --------------------------------------- | ------ | ----- | ------ | ------- | ----- | ---- | --------- | --------- | -------- | ------ | ----- | -------- |
-| Drill de validation de contrat effectué |        |       |        |         |       |      |           |           |          |        |       |          |
+| Quoi                                    | ZSI | EKE | ABI | GLT | KBN | TTS | TBN | GRI | DRT | SGN | OBR | DCL |
+| --------------------------------------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Drill de validation de contrat effectué |     |     |     |     |     |     |     |     |     |     |     |     |
+| BP utilise le contrat `Time`            |     |     |     |     |     |     |     |     |     |     |     |     |
+| BP a des horaires d'ouverture définis   |     |     |     |     |     |     |     |     |     |     |     |     |
+| BP Annonce ouverture et fermeture       |     |     |     |     |     |     |     |     |     |     |     |     |
