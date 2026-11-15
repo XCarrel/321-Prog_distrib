@@ -63,11 +63,12 @@ Nous avons fait un debrief avec un focus sur la comparaison par valeur (`Equals`
 
 Nous avons décidé de garder le thème des boulangerie-pâtisseries pour notre projet.
 
-J'ai créé le repo, l'équipe et les droits d'accès.  
+J'ai créé le repo, l'équipe et les droits d'accès.
 
 Chacun a commencé la réalisation de son app "backoffice", l'endroit à partir duquel on va gérer sa BP.  
 Les conditions suivantes s'appliquent à tous les backoffices:
-- Le stack utilisé pour son développement est libre. 
+
+- Le stack utilisé pour son développement est libre.
 - Il doit pouvoir s'intégrer à notre infrastructure de communication (MQTT)
 - Le code est personnel, il est maintenu dans un repo personnel.
 - Le modèle minimal de BP contient:
@@ -86,12 +87,14 @@ Les conditions suivantes s'appliquent à tous les backoffices:
 TODO: définir ensemble l'emplacement de la référence commune pour les modèles
 
 Objectifs individuels:
+
 - Créer son backoffice "Hello World"
 - Sérialiser son business dans un fichier JSON
 - Redémarrer son backoffice avec relecture (désérialisation) du fichier
 - Echanger des fichiers par Discord, afficher le business d'un autre dans son backoffice
 
 DoD:
+
 - [x] Le repo du projet commun est créé sur Github : https://github.com/ETML-INF/UMDD
 - [x] Il est privé, accessible par tous les membres de l'équipe
 - [ ] On a défini l'endroit où sont les modèles de référence. (_pas fait_)
@@ -99,14 +102,16 @@ DoD:
 ### Lundi 9 novembre
 
 On visait à:
+
 - Finaliser les BP 1.0 : Modéliser, Afficher, Sérialiser le modèle (bouton), désérialiser le modèle (démarrage)
 - Faire le checkpoint à 9h50 après la pause
 - Voir la théorie NTP
 - Définir le format du message NTP
-- Être capable de relire une heure "UMDD-NTP" et l'afficher 
+- Être capable de relire une heure "UMDD-NTP" et l'afficher
 - Faire des User Stories
 
 DoD:
+
 - [x] Toutes les BP affichent et (dé)sérialisent
 - [x] Format "UMDD-NTP": dans le [readme UMDD](https://github.com/ETML-INF/UMDD/tree/develop#Time)
 - [ ] Toutes les BP affichent la même heure
@@ -120,6 +125,7 @@ Il y avait plusieurs alternatives possibles. Nous aurions pu envisager de cherch
 Nous avons vu la [théorie MQTT](./supports/mqtt.md).
 
 Nous avons eu des choix à faire ensemble:
+
 - Quel broker MQTT utiliser ? Comment en garantir la disponibilité continue ?
   - Voir section [MQTT](https://github.com/ETML-INF/UMDD/blob/develop/README.md#mqtt) de notre repo
 - Quelle est la structure des topics ?
@@ -127,27 +133,49 @@ Nous avons eu des choix à faire ensemble:
 - Comment la "Source de temps" s'en est-elle servie pour diffuser l'heure ?
   - Sérialise et diffuse son heure actuelle chaque seconde sur le topic choisi
 
-Nous avons repris la pratique, chacun ayant pour but la désérialisation d'un objet porteur du timestamp unix.  
+Nous avons repris la pratique, chacun ayant pour but la désérialisation d'un objet porteur du timestamp unix.
 
-Théophile, Damien, Erdem et Albert se sont mis à coder une source de temps. Ils ont mis leur code dans le dépôt UMDD, sur une branche ([gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)).  
+Théophile, Damien, Erdem et Albert se sont mis à coder une source de temps. Ils ont mis leur code dans le dépôt UMDD, sur une branche ([gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)).
 
 Etapes visées:
+
 1. Être capable d'envoyer un message json sur un topic choisi à un broker MQTT
-2. Envoyer son heure courante chaque seconde  
-3. Dockeriser  
-4. Permettre de définir un décalage temporel  
+2. Envoyer son heure courante chaque seconde
+3. Dockeriser
+4. Permettre de définir un décalage temporel
 5. Permettre de définir un facteur d'accélération du temps
 
 Deux sources ont atteint l'étape 3.  
 4 et 5 attendront.
 
-**Attention**: Il s'agit là de code commun cette fois. En fin de module, tout le monde est censé être en mesure de débugger ou améliorer ce composant!  
+**Attention**: Il s'agit là de code commun cette fois. En fin de module, tout le monde est censé être en mesure de débugger ou améliorer ce composant!
 
 Chacun a ajouté à sa BP la réception du message de temps et l'affichage dynamique.
 
 DoD:
+
 - [x] Le broker MQTT de Dousville a été défini et documenté
 - [x] Le broker a été disponible
 - [x] Le topic pour la diffusion de l'heure a été défini et documenté
 - [x] Une source de temps a diffusé l'heure commune
 - [x] Toutes les BP ont affiché l'heure dynamiquement. (sauf Théophile et Tony)
+
+### Lundi 16 novembre
+
+Notre objectif global sera de mettre en place nos contrats JSON et que chaque BP applique les contrats `time` et `log`.
+
+DoD Globale:
+
+- [ ] Nos contrats `envelope`, `time` et `log` sont dans notre [repo UMDD](https://github.com/ETML-INF/UMDD/tree/develop/doc/contracts)
+- [ ] Notre microservice `Time` est déployé pour être disponible H24
+- [ ] Le code de `Time` est commité dans `main`. Chacun est susceptible d'intervenir dessus à l'avenir
+- [ ] Notre microservice `Log` est déployé pour être disponible H24
+- [ ] Le code de `Log` est commité dans `main`. Chacun est susceptible d'intervenir dessus à l'avenir
+- [ ] Nous avons un client `LogSpy` publié. Un installeur est joint comme asset à la livraison de `LogSpy`
+- [ ] Le code de `LogSpy` est commité dans `main`. Chacun est susceptible d'intervenir dessus à l'avenir
+
+DoD Individuelle:
+
+| Quoi                                    | Zidane | Erdem | Albert | Gillian | Kiril | Tony | Théophile | Gianmarco | Damien R | Snehan | Sacha | Damien C |
+| --------------------------------------- | ------ | ----- | ------ | ------- | ----- | ---- | --------- | --------- | -------- | ------ | ----- | -------- |
+| Drill de validation de contrat effectué |        |       |        |         |       |      |           |           |          |        |       |          |
