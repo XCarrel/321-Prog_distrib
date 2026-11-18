@@ -162,27 +162,37 @@ DoD:
 
 ### Lundi 16 novembre
 
-Notre objectif global sera de mettre en place nos contrats JSON et que chaque BP applique les contrats `time` et `log`.
+Notre objectif global était de mettre en place nos contrats JSON et que chaque BP applique les contrats `time` et `log`.
 
-Nous allons parcourir ensemble le support de théorie des [Microservices](./supports/microservice.md) et mettre en place le microservice `Log`
+Nous avons vu ensemble le support de théorie des [Microservices](./supports/microservice.md).
+Nous avons regardé le principe de validation des données par un schema JSON sur la base de ces [contrats de base](https://github.com/ETML-INF/321-Prog_distrib/tree/main/activites/contrats).
 
-Nous allons faire le checkpoint NTP/MQTT
+_(Allez voir [ici](https://json-schema.org/understanding-json-schema/about) pour plus de notions théoriques sur les schemas JSON)_
 
-DoD Globale:
+Nous avons établi [nos schémas](https://github.com/ETML-INF/UMDD/tree/develop/doc/contracts) pour la validation d'enveloppe et de messages `time`
 
-- [ ] Nos contrats `envelope`, `time` et `log` sont dans notre [repo UMDD](https://github.com/ETML-INF/UMDD/tree/develop/doc/contracts)
-- [ ] Notre microservice `Time` est déployé pour être disponible H24
-- [ ] Le code de `Time` est commité dans `main`. Chacun est susceptible d'intervenir dessus à l'avenir
-- [ ] Notre microservice `Log` est déployé pour être disponible H24
-- [ ] Le code de `Log` est commité dans `main`. Chacun est susceptible d'intervenir dessus à l'avenir
-- [ ] Nous avons un client `LogSpy` publié. Un installeur est joint comme asset à la livraison de `LogSpy`
-- [ ] Le code de `LogSpy` est commité dans `main`. Chacun est susceptible d'intervenir dessus à l'avenir
+Nous avons fait le checkpoint NTP/MQTT, les résultats sont nettement moins bons que le premier.
 
-DoD Individuelle:
+Un service SERV-Time est prêt pour déploiement:
+- Le container est disponible dans les [packages ETML](https://github.com/ETML-INF/UMDD/pkgs/container/serv-time)
+- Il diffuse une heure qui respecte le contrat `time` toutes les secondes
+- Il peut être géré par une interface web sur le port 8080
+- Il supporte le décalage de l'heure et l'accélération du temps
+- Albert est en train de le déployer sur son infra
 
-| Quoi                                    | ZSI | EKE | ABI | GLT | KBN | TTS | TBN | GRI | DRT | SGN | OBR | DCL |
-| --------------------------------------- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Drill de validation de contrat effectué |     |     |     |     |     |     |     |     |     |     |     |     |
-| BP utilise le contrat `Time`            |     |     |     |     |     |     |     |     |     |     |     |     |
-| BP a des horaires d'ouverture définis   |     |     |     |     |     |     |     |     |     |     |     |     |
-| BP Annonce ouverture et fermeture       |     |     |     |     |     |     |     |     |     |     |     |     |
+L'objectif initial n'a donc pas été atteint. La raison semble être le manque de compréhension de ce qui doit être fait. Il faut améliorer les consignes de bases et la discussion de validation de ces consignes.
+
+### Mercredi 18 novembre
+
+Après-midi consacrée au projet. Travail individuel.
+
+DoD pour chacun:
+- Repo de projet créé
+- Repo référencé dans Marketplace
+- `XCarrel` invité au repo (Write)
+- Comprendre les critères d'évaluation (Marketplace)
+- CdC complété (cartouche) et commité quelque part sous `/doc`. Le commit tient lieu de signature du CdC et d'acceptation des critères d'évaluation.
+- Rédiger l'introduction du readme (objectifs produit et pédagogiques)
+- Faire une livraison pour le point `a` de la section 7.3 du CdC
+
+Le project handbook est disponible [ici](https://xcarrel.github.io/Project-Handbook/main/)
