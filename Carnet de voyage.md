@@ -45,7 +45,7 @@ Il ne s'agit que d'une ébauche car certaines décisions n'ont pas encore été 
 
 J'ai parlé du projet, qui consistera à faire un mediaplayer pour ambiancer les BP.
 
-Nous avons commencé un petit [drill](./drills/OODrills/) OO pour nous assurer qu'on part avec un bagage minimal solide.
+Nous avons commencé un petit [drill](#) OO pour nous assurer qu'on part avec un bagage minimal solide.
 
 Quel que soit le chemin, nous ne pourrons pas nous entendre si nous ne maîtrisons pas tous le concept de sérialisation. Nous avons donc commencé par étudier la [théorie](./supports/Sérialisation.md) de ce concept, puis nous avons commencé un petit [drill](./drills/serialisation/).
 
