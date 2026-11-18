@@ -188,11 +188,11 @@ Après-midi consacrée au projet. Travail individuel.
 
 DoD pour chacun:
 - Repo de projet créé
+- Rédiger l'introduction du readme (objectifs produit et pédagogiques)
 - Repo référencé dans Marketplace
 - `XCarrel` invité au repo (Write)
 - Comprendre les critères d'évaluation (Marketplace)
 - CdC complété (cartouche) et commité quelque part sous `/doc`. Le commit tient lieu de signature du CdC et d'acceptation des critères d'évaluation.
-- Rédiger l'introduction du readme (objectifs produit et pédagogiques)
 - Faire une livraison pour le point `a` de la section 7.3 du CdC
 
 Le project handbook est disponible [ici](https://xcarrel.github.io/Project-Handbook/main/)
