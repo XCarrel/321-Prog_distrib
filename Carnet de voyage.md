@@ -174,6 +174,7 @@ Nous avons établi [nos schémas](https://github.com/ETML-INF/UMDD/tree/develop/
 Nous avons fait le checkpoint NTP/MQTT, les résultats sont nettement moins bons que le premier.
 
 Un service SERV-Time est prêt pour déploiement:
+
 - Le container est disponible dans les [packages ETML](https://github.com/ETML-INF/UMDD/pkgs/container/serv-time)
 - Il diffuse une heure qui respecte le contrat `time` toutes les secondes
 - Il peut être géré par une interface web sur le port 8080
@@ -187,6 +188,7 @@ L'objectif initial n'a donc pas été atteint. La raison semble être le manque 
 Après-midi consacrée au projet. Travail individuel.
 
 DoD pour chacun:
+
 - Repo de projet créé
 - Rédiger l'introduction du readme (objectifs produit et pédagogiques)
 - Repo référencé dans Marketplace
@@ -196,3 +198,27 @@ DoD pour chacun:
 - Faire une livraison pour le point `a` de la section 7.3 du CdC
 
 Le project handbook est disponible [ici](https://xcarrel.github.io/Project-Handbook/main/)
+
+### Lundi 23 novembre
+
+Notre objectif cette semaine sera de mettre en place de manière propre nos deux premiers microservices (`SERV-Time` et `SERV-Log`):
+
+- Déployés sur l'infra métier de l'école
+- Basés sur des schémas JSON du repo
+- Base de code identifiée (emplacement connu de tous)
+
+Nous y travaillerons jusqu'à la pause.
+
+Ensuite, nous ferons le Checkpoint #3 (Microservices)
+
+Nous discuterons ensuite de deux sujets théoriques : l'[idempotence](./supports/idempotence.md) et les [transactions](./supports/transaction.md).
+
+Après avoir revu ce document ensemble, je vous expliquerai le principe d'évaluation de ce module plus en détail :
+
+- Vous disposez d'un `.zip` du repo `UMDD`
+- Je vous donne une fonctionnalité à implémenter
+- Vous l'analysez
+- Vous répondez par écrit à quelques questions générales par rapport à cette situation dans le contexte UMDD
+- Vous insérez des `//TODO` dans le code. Il définissent le travail à effectuer pour l'implémentation. Si ce travail est très bien fait, il suffirait de pompter une IA avec "Implémente les //TODO" pour que la réalisation se fasse exactement comme vous l'avez prévu.
+
+Nous continuerons à avancer sur nos microservices jusqu'à la fin de la matinée. Si besoin, nous reprendrons un peu de temps mercredi pour mettre un terme à cette activité.
