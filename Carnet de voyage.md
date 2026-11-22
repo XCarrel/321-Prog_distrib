@@ -213,12 +213,12 @@ Ensuite, nous ferons le Checkpoint #3 (Microservices)
 
 Nous discuterons ensuite de deux sujets théoriques : l'[idempotence](./supports/idempotence.md) et les [transactions](./supports/transaction.md).
 
-Après avoir revu ce document ensemble, je vous expliquerai le principe d'évaluation de ce module plus en détail :
+Après ça, je vous expliquerai le principe d'évaluation de ce module plus en détail :
 
 - Vous disposez d'un `.zip` du repo `UMDD`
 - Je vous donne une fonctionnalité à implémenter
 - Vous l'analysez
 - Vous répondez par écrit à quelques questions générales par rapport à cette situation dans le contexte UMDD
-- Vous insérez des `//TODO` dans le code. Il définissent le travail à effectuer pour l'implémentation. Si ce travail est très bien fait, il suffirait de pompter une IA avec "Implémente les //TODO" pour que la réalisation se fasse exactement comme vous l'avez prévu.
+- Vous insérez des `//TODO` dans le code. Il définissent le travail à effectuer pour l'implémentation. Si ce travail est bien fait, il suffirait de prompter une IA avec "_Implémente les `//TODO`_" pour que la réalisation se fasse exactement comme vous l'avez prévu.
 
-Nous continuerons à avancer sur nos microservices jusqu'à la fin de la matinée. Si besoin, nous reprendrons un peu de temps mercredi pour mettre un terme à cette activité.
+S'il nous reste du temps, nous continuerons à avancer sur nos microservices jusqu'à la fin de la matinée. Si besoin, nous reprendrons un peu de temps mercredi pour atteindre notre objectif.
