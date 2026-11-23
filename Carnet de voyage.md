@@ -207,11 +207,15 @@ Notre objectif cette semaine sera de mettre en place de manière propre nos deux
 - Basés sur des schémas JSON du repo
 - Base de code identifiée (emplacement connu de tous)
 
+![](./supports/assets/LogService.png)
+
 Nous y travaillerons jusqu'à la pause.
 
 Ensuite, nous ferons le Checkpoint #3 (Microservices)
 
-Nous discuterons ensuite de deux sujets théoriques : l'[idempotence](./supports/idempotence.md) et les [transactions](./supports/transaction.md).
+Nous discuterons ensuite d'un sujet théorique important en vue de votre prochain microservice (l'annuaire, aka la coopérative) : l'[idempotence](./supports/idempotence.md)
+
+On fait un petit drill sur le sujet, en ne s'aidant que de sa tête et de papier/stylo.
 
 Après ça, je vous expliquerai le principe d'évaluation de ce module plus en détail :
 
@@ -221,4 +225,4 @@ Après ça, je vous expliquerai le principe d'évaluation de ce module plus en d
 - Vous répondez par écrit à quelques questions générales par rapport à cette situation dans le contexte UMDD
 - Vous insérez des `//TODO` dans le code. Il définissent le travail à effectuer pour l'implémentation. Si ce travail est bien fait, il suffirait de prompter une IA avec "_Implémente les `//TODO`_" pour que la réalisation se fasse exactement comme vous l'avez prévu.
 
-S'il nous reste du temps, nous continuerons à avancer sur nos microservices jusqu'à la fin de la matinée. Si besoin, nous reprendrons un peu de temps mercredi pour atteindre notre objectif.
+S'il nous reste du temps, nous détaillerons les besoins de `SERV-coop` et continuerons à avancer sur nos microservices jusqu'à la fin de la matinée. Si besoin, nous reprendrons un peu de temps mercredi pour atteindre notre objectif.
