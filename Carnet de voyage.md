@@ -261,7 +261,7 @@ Certaines (Sacha par exemple) ont diffusé des logs d'événement d'ouverture/fe
 Nous allons prendre un peu de temps pour nous mettre à niveau
 
 - [ ] Explications sur le hosting de SERV-Time: [ici](https://github.com/ETML-INF/UMDD/blob/develop/doc/deployments/SERV-Time.md)
-- [ ] Le serveur de backup reste disponible sur l'infra d'Albert.
+- [ ] Le serveur de backup reste disponible sur l'infra d'Albert. (Interface de contrôle [ici](https://mqtt.blue.xlan.ch/))
 - [ ] Je change l'heure sur l'interface de contrôle, tout le monde "suit"
 - [ ] Explications sur le hosting de SERV-Log: [ici]()
 - [ ] J'accélère le temps, les messages de log d'ouverture/fermeture défilent
