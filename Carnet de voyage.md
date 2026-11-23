@@ -256,3 +256,14 @@ On peut considérer que toutes les BP:
 
 Certaines (Sacha par exemple) ont diffusé des logs d'événement d'ouverture/fermeture qui ont été capturés par `SERV-Log`. 
 
+### Mercredi 25 novembre
+
+Nous allons prendre un peu de temps pour nous mettre à niveau
+
+- [ ] Explications sur le hosting de SERV-Time: [ici](https://github.com/ETML-INF/UMDD/blob/develop/doc/deployments/SERV-Time.md)
+- [ ] Le serveur de backup reste disponible sur l'infra d'Albert.
+- [ ] Je change l'heure sur l'interface de contrôle, tout le monde "suit"
+- [ ] Explications sur le hosting de SERV-Log: [ici]()
+- [ ] J'accélère le temps, les messages de log d'ouverture/fermeture défilent
+
+Dès qu'on a vu passer un log d'ouverture et un de fermeture de votre BP, vous passez en projet.
