@@ -207,17 +207,41 @@ Notre objectif cette semaine sera de mettre en place de manière propre nos deux
 - Basés sur des schémas JSON du repo
 - Base de code identifiée (emplacement connu de tous)
 
+Nous avons discuté de l'architecture de log et nous avons convenu de ceci:
+
 ![](./supports/assets/LogService.png)
 
-Nous y travaillerons jusqu'à la pause.
+Les logs seront consulté par chacun en ligne de commande (`ssh`) avec:
+- `tail -f file.log` pour le défilement en temps réel
+- `grep` pour des recherches locales
+- `scp` pour rapatrier des fichiers pour analyse forensique
 
-Ensuite, nous ferons le Checkpoint #3 (Microservices)
+Nous y avons travaillé jusqu'à la pause.
 
-Nous discuterons ensuite d'un sujet théorique important en vue de votre prochain microservice (l'annuaire, aka la coopérative) : l'[idempotence](./supports/idempotence.md)
+Ensuite, nous avons fait le Checkpoint #3 (Microservices). Il y a vait un petit bug avec une réponse à double dans un QCM.
 
-On fait un petit drill sur le sujet, en ne s'aidant que de sa tête et de papier/stylo.
+Résultats(jusqu'ici):
 
-Après ça, je vous expliquerai le principe d'évaluation de ce module plus en détail :
+| **Max pts** |   28 |   15 |       14 |
+| ----------- | ---: | ---: | -------: |
+| Albert      |   23 |    4 |       12 |
+| Damien C    |   14 |   10 |       10 |
+| Damien R    |   22 | 12,5 |       10 |
+| Erdem       |   17 |    6 |       10 |
+| Gianmarco   |   19 |   11 |       12 |
+| Gillian     |   22 |   11 |        8 |
+| Kiril       |   25 |   14 | (absent) |
+| Sacha       |   25 | 11,5 |        9 |
+| Snehan      |   22 |    9 | (absent) |
+| Théophile   |   24 |    7 |        9 |
+| Tony        |   25 |   15 |       11 |
+| Zidane      |   22 | 13,5 |        5 |
+
+Nous avons ensuite de l'[idempotence](./supports/idempotence.md)
+
+On a fait un petit drill sur le sujet, en ne s'aidant que de sa tête et de papier/stylo.
+
+J'ai expliqué le principe d'évaluation de ce module plus en détail :
 
 - Vous disposez d'un `.zip` du repo `UMDD`
 - Je vous donne une fonctionnalité à implémenter
@@ -225,4 +249,12 @@ Après ça, je vous expliquerai le principe d'évaluation de ce module plus en d
 - Vous répondez par écrit à quelques questions générales par rapport à cette situation dans le contexte UMDD
 - Vous insérez des `//TODO` dans le code. Il définissent le travail à effectuer pour l'implémentation. Si ce travail est bien fait, il suffirait de prompter une IA avec "_Implémente les `//TODO`_" pour que la réalisation se fasse exactement comme vous l'avez prévu.
 
-S'il nous reste du temps, nous détaillerons les besoins de `SERV-coop` et continuerons à avancer sur nos microservices jusqu'à la fin de la matinée. Si besoin, nous reprendrons un peu de temps mercredi pour atteindre notre objectif.
+Damien R a créé un premier jet pour le service de log.
+
+On peut considérer que toutes les BP:
+1. sont maintenant calées sur `SERV-Time` avec des messages conformes à notre spec
+2. Ont leurs horaires (formt propriétaire)
+3. Ouvrent et ferment en fonction de l'heure commune
+
+Certaines (Sacha par exemple) ont diffusé des logs d'événement d'ouverture/fermeture qui ont été capturés par `SERV-Log`. 
+
