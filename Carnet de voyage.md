@@ -211,16 +211,14 @@ Nous avons discuté de l'architecture de log et nous avons convenu de ceci:
 
 ![](./supports/assets/LogService.png)
 
-Les logs seront consulté par chacun en ligne de commande (`ssh`) avec:
+Les logs seront consultés par chacun en ligne de commande (`ssh`) avec:
 - `tail -f file.log` pour le défilement en temps réel
 - `grep` pour des recherches locales
-- `scp` pour rapatrier des fichiers pour analyse forensique
+- `scp` pour rapatrier des fichiers pour analyse forensique. (`ftp`/`sftp` ont été évoqués, mais nous ne le ferons probablement pas car cela demande l'installation d'un serveur FTP)
 
 Nous y avons travaillé jusqu'à la pause.
 
-Ensuite, nous avons fait le Checkpoint #3 (Microservices). Il y a vait un petit bug avec une réponse à double dans un QCM.
-
-Résultats(jusqu'ici):
+Ensuite, nous avons fait le Checkpoint #3 (Microservices). Il y avait un petit bug avec une réponse à double dans un QCM, mais cela n'a pas empêché un résultat global positif:
 
 | **Max pts** |   28 |   15 |       14 |
 | ----------- | ---: | ---: | -------: |
@@ -237,7 +235,7 @@ Résultats(jusqu'ici):
 | Tony        |   25 |   15 |       11 |
 | Zidane      |   22 | 13,5 |        5 |
 
-Nous avons ensuite de l'[idempotence](./supports/idempotence.md)
+Nous avons ensuite discuté de l'[idempotence](./supports/idempotence.md).
 
 On a fait un petit drill sur le sujet, en ne s'aidant que de sa tête et de papier/stylo.
 
@@ -247,13 +245,13 @@ J'ai expliqué le principe d'évaluation de ce module plus en détail :
 - Je vous donne une fonctionnalité à implémenter
 - Vous l'analysez
 - Vous répondez par écrit à quelques questions générales par rapport à cette situation dans le contexte UMDD
-- Vous insérez des `//TODO` dans le code. Il définissent le travail à effectuer pour l'implémentation. Si ce travail est bien fait, il suffirait de prompter une IA avec "_Implémente les `//TODO`_" pour que la réalisation se fasse exactement comme vous l'avez prévu.
+- Vous insérez des `//TODO` dans le code. Ils définissent le travail à effectuer pour l'implémentation. Si ce travail est bien fait, il suffirait de prompter une IA avec "_Implémente les `//TODO`_" pour que la réalisation se fasse exactement comme vous l'avez prévu.
 
 Damien R a créé un premier jet pour le service de log.
 
 On peut considérer que toutes les BP:
-1. sont maintenant calées sur `SERV-Time` avec des messages conformes à notre spec
-2. Ont leurs horaires (formt propriétaire)
+1. Sont maintenant calées sur `SERV-Time` avec des messages conformes à notre spec
+2. Ont leurs horaires (format propriétaire)
 3. Ouvrent et ferment en fonction de l'heure commune
 
 Certaines (Sacha par exemple) ont diffusé des logs d'événement d'ouverture/fermeture qui ont été capturés par `SERV-Log`. 
